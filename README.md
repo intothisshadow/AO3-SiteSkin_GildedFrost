@@ -4,8 +4,8 @@ A dark, wintry site skin for [Archive of Our Own](https://archiveofourown.org): 
 
 **Author:** intothisshadow  
 **Version:** 1.0.0  
-**AO3 instructions:** _not yet published_  
-**GitHub:** https://github.com/intothisshadow/AO3-SiteSkin_GildedFrost  
+s**AO3 instructions:** https://archiveofourown.org/works/94504386 
+**GitHub:** https://github.com/intothisshadow/AO3-SiteSkin_GildedFrost/  
 **Website:** https://www.so-obsessed.com
 
 ## Screenshots
@@ -31,7 +31,6 @@ A dark, wintry site skin for [Archive of Our Own](https://archiveofourown.org): 
   <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/intothisshadow-Archive-of-Our-Own.jpg" width="48%" />
 </p>
 </details>
-
 <details>
 <summary>Mobile</summary>
 <p align="center">
@@ -42,6 +41,7 @@ A dark, wintry site skin for [Archive of Our Own](https://archiveofourown.org): 
   <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/mobile_0003.jpg" width="30%" />
 </p>
 </details>
+
 
 <details>
 <summary>Work page</summary>
@@ -65,6 +65,10 @@ README.md               This file
 ```
 
 ## How to Install
+
+Find the files mentioned here:
+
+**GitHub:** https://github.com/intothisshadow/AO3-SiteSkin_GildedFrost/ 
 
 ### Fonts via Stylus (recommended)
 
