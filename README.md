@@ -8,6 +8,37 @@ A dark, wintry site skin for [Archive of Our Own](https://archiveofourown.org): 
 **GitHub:** https://github.com/intothisshadow/AO3-SiteSkin_GildedFrost  
 **Website:** https://www.so-obsessed.com
 
+## Screenshots
+
+<details>
+<summary>Desktop</summary>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Home-Archive-of-Our-Own.jpg" width="48%" />
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Fandoms-Archive-of-Our-Own.jpg" width="48%" />
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Movies-Archive-of-Our-Own.jpg" width="48%" />
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Tags-Archive-of-Our-Own.jpg" width="48%" />
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Latest-Works-Archive-of-Our-Own.jpg" width="48%" />
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Search-Works-Archive-of-Our-Own.jpg" width="48%" />
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/intothisshadow-Archive-of-Our-Own.jpg" width="48%" />
+</p>
+</details>
+
+<details>
+<summary>Work page</summary>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Work-page.jpg" width="60%" />
+</p>
+</details>
+
 ## Fonts
 
 This theme uses Cinzel (https://fonts.google.com/specimen/Cinzel) for headings, the Archive of Our Own title in the header, buttons and navigation, and EB Garamond (https://fonts.google.com/specimen/EB+Garamond) for body text, links and tags. AO3 skins can't load web fonts, so to see them you need either to install both fonts on your system (download them from the URLs above), or to load them in your browser with the included `stylus_fonts.css` (see [Fonts via Stylus](#fonts-via-stylus-recommended) below). Without either, the skin falls back to Georgia/serif.
