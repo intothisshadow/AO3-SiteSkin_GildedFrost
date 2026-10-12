@@ -33,6 +33,17 @@ A dark, wintry site skin for [Archive of Our Own](https://archiveofourown.org): 
 </details>
 
 <details>
+<summary>Mobile</summary>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/mobile_0001.jpg" width="30%" />
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/mobile_0002.jpg" width="30%" />
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/mobile_0003.jpg" width="30%" />
+</p>
+</details>
+
+<details>
 <summary>Work page</summary>
 <p align="center">
   <img src="https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_GildedFrost/refs/heads/main/screenshots/Work-page.jpg" width="60%" />
