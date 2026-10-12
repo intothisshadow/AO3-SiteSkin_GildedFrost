@@ -1,0 +1,470 @@
+/*
+ * ============================================
+ * Theme Name: Gilded Frost - Mobile Skin Add-on
+ * Version: 1.0.0
+ * Author: intothisshadow
+ * Author URI: https://www.so-obsessed.com
+ * Last Updated: 2026-10-12
+ * ============================================
+ *
+ * Requires the Gilded Frost desktop skin (style_desktop.css) as its
+ * parent skin.
+ *
+ * HOW TO USE:
+ * 1. Make a site skin with style_desktop.css and select "All Media Types"
+ *    under Media. Save skin.
+ * 2. Make a second site skin with the code below. Under Media, check
+ *    "Handheld Devices" and "Narrow Screen Devices", and set the first
+ *    skin as this one's Parent Skin. Save and activate this skin only;
+ *    AO3 applies the parent alongside it automatically.
+ *
+ * NOTE: these rules are deliberately not wrapped in an at-media block.
+ * AO3 already applies this whole skin only to the media types checked
+ * above, and it flattens any inner media query on save.
+ * ============================================
+ */
+
+/* Phone type scale. style_desktop.css sizes everything through the
+   --fs-* tokens, which are rem-based, so shrinking the root below scales
+   the whole scale down together. The one exception is --fs-base (body
+   and reading text), pinned here to 18px so fic text stays comfortable
+   to read on a phone instead of dropping to the 17.5px that 1.25rem
+   would give. Body text and reading text are now the same size, rather
+   than the old 16px body next to 20px fic text. */
+:root {
+  --fs-base: 18px;
+}
+
+/* AO3's own narrow-screen CSS sets #outer (the wrapper around the whole
+   page) to 0.875em, which quietly shrank all inherited body text on
+   phones to about 15.8px, off the scale above. */
+#outer {
+  font-size: 1em !important;
+}
+
+/* Shrinking the root scales every rem-based --fs-* token (buttons, tags,
+   headings, meta labels) down together in one place. This also shrinks
+   #header h1's rem-based size, so it's compensated back to a fixed pixel
+   size directly below; the logo was separately tuned for mobile. */
+html {
+  font-size: 14px !important;
+}
+
+#header h1 {
+  font-size: 24px !important;
+}
+
+/* AO3's own core CSS gives the work preface wrapper (title, byline,
+   summary, and notes) a flat left and right margin sized for a desktop
+   viewport. On a narrow phone that margin alone eats roughly a quarter of
+   the available width before the content even starts, and was the actual
+   cause of the summary and notes text wrapping to one or two words per
+   line. Tightened here. */
+div.preface {
+  margin: 1em 0.5em !important;
+}
+
+/* The main content area's fixed side padding in style_desktop.css eats a
+   large share of a narrow viewport's width. */
+#main {
+  padding: 0.5em 0.75em 1.5em !important;
+}
+
+/* On a dashboard page, style_desktop.css shifts the main content area
+   over with a fixed left margin to make room for the sidebar that sits
+   beside it on desktop. AO3's own responsive CSS resets this margin at
+   narrow widths, but not with enough weight to beat the flat value above,
+   which was crushing dashboard pages down to a sliver a few characters
+   wide on a phone since the sidebar actually stacks above the content
+   there instead of sitting beside it. */
+#main.dashboard {
+  margin-left: 0 !important;
+  padding-left: 0.75em !important;
+}
+
+#header .heading a {
+  font-size: 1em !important;
+  letter-spacing: 0.05em !important;
+}
+
+#header {
+  border-width: 0 0 1px 0 !important;
+}
+
+/* Header avatar: style_desktop.css nudges it 5px down to sit level with
+   the desktop greeting link. This file's smaller root and header link
+   padding (just below) raise the greeting text by about that much, so
+   here the avatar is already level without the nudge. */
+#greeting p.icon img {
+  top: 0 !important;
+}
+
+#header .primary a,
+#header .user > li > a {
+  font-size: var(--fs-xs) !important;
+  padding: 0.5em 0.6em !important;
+}
+
+#chapters {
+  padding: 1em !important;
+}
+
+/* Chapter and end notes wrap a blockquote directly, and each has its own
+   left padding and border, so the two stack into a narrower reading
+   column on phones. */
+.notes.module {
+  padding: 0.75em 0.9em !important;
+}
+
+blockquote,
+pre {
+  padding-left: 0.5em !important;
+}
+
+/* AO3's own userstuff CSS sets a logical start margin on blockquotes
+   inside userstuff content. This skin's own border and padding overrides
+   only ever touched the equivalent physical properties, so that margin
+   was adding its own unopposed indent on top of everything else. */
+.userstuff blockquote {
+  margin-inline-start: 0.25em !important;
+}
+
+fieldset {
+  padding: 0.85em !important;
+}
+
+fieldset legend,
+form.verbose legend,
+.verbose form legend {
+  padding: 0.4em 0.6em !important;
+}
+
+/* Thinner gradient bars on every dashboard sidebar. The news one is
+   listed separately because style_desktop.css sets its bars with a more
+   specific selector, which a plain #dashboard here would lose to. */
+#dashboard,
+#dashboard.admin.region {
+  border-bottom-width: 6px !important;
+  border-top-width: 6px !important;
+}
+
+/* Dashboard sidebar links (Dashboard, Profile, Works, etc.) share the
+   sitewide button-pill rule (border, padding, border-radius) because
+   their ul carries class "actions" too, same as every other button on
+   the site. At desktop width that padding reads fine; wrapped two to a
+   row at phone width it made each item too tall and let adjacent rows'
+   borders collide. AO3's own responsive CSS also switches these li to
+   display: inline at this width, which doesn't reserve full box height
+   between wrapped lines and was the direct cause of the overlap.
+   Rebuilt as an explicit flex-wrap layout with margin-based spacing
+   (gap isn't supported by AO3's sanitizer) instead of relying on that. */
+#dashboard ul.navigation.actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  padding: 1em !important;
+}
+
+#dashboard li {
+  display: block !important;
+  margin: 0 0.4em 0.4em 0 !important;
+}
+
+#dashboard a {
+  border-radius: 0 !important;
+  display: inline-block !important;
+  font-size: var(--fs-xs) !important;
+  padding: 0.2em 0.35em !important;
+}
+
+/* AO3's own paragraph margin inside userstuff content is relative to the
+   paragraph's own font-size, so it scales up with the larger body text
+   this skin uses, stacking into a very tall gap between paragraphs on a
+   phone once the increased line-height is factored in. */
+.userstuff p,
+.userstuff details {
+  margin: 0.75em auto !important;
+}
+
+/* Kudos card: tighter padding and a smaller icon on a phone. The icon is
+   floated (see style_desktop.css), so the names wrap underneath it. */
+p.kudos {
+  padding: 0.8em !important;
+}
+
+p.kudos::before {
+  height: 44px;
+  width: 44px;
+}
+
+/* Sort and Filter drawer. AO3's own JavaScript opens it by adding the
+   "filtering" class to #outer (not to the form) and removing
+   "narrow-hidden" from form.filters; while closed, narrow-hidden keeps the
+   form at display none. AO3's narrow-screen CSS then slides the whole
+   page left by a fixed 14em and pulls the form in from right: -16em, both
+   calibrated to AO3's own font-size and padding. This skin changes both,
+   so that maths landed the panel off-screen, and style_desktop.css's
+   21%-wide float for the desktop sidebar made it worse.
+
+   Instead of recalibrating the slide, the page stays put and the open
+   form becomes a drawer pinned to the top right of #outer (which AO3's
+   narrow CSS already makes position relative), overlaying the results
+   with a shadow on its left edge. position absolute is used rather than
+   fixed, per the AO3 sanitizer restrictions. Closing still works through
+   AO3's own #leave_filters overlay: tapping anywhere outside the drawer
+   closes it. */
+#outer.filtering {
+  left: auto !important;
+  position: relative !important;
+  right: 0 !important;
+}
+
+.javascript form.filters {
+  border-left: 2px solid var(--gf-ice-dim) !important;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.65) !important;
+  box-sizing: border-box !important;
+  float: none !important;
+  left: auto !important;
+  margin: 0 !important;
+  max-width: 90% !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 18em !important;
+  z-index: 400 !important;
+}
+
+/* Without JavaScript (no "javascript" class on body) AO3 never hides the
+   form or opens a drawer, so it falls back to a plain full-width block
+   below the results instead of style_desktop.css's 21% sidebar float. */
+body:not(.javascript) form.filters {
+  box-sizing: border-box !important;
+  float: none !important;
+  margin: 1em 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* The front-page module grid is forced to a flat two-column width in
+   style_desktop.css, which squeezes each module to a fraction of a
+   phone's width. AO3's own narrow-screen CSS already collapses these to
+   full-width, single-column, and this restores that. */
+.splash > .module {
+  width: 100% !important;
+}
+
+/* Tag pills keep their desktop padding fine since they already wrap via
+   inline-block, so no override is needed there. */
+
+/* Footer: AO3's own core CSS floats the four footer columns (Customize,
+   About the Archive, Contact Us, Development) side by side, capped at
+   max-width 20% each, and its narrow-screen CSS never resets that. On a
+   phone that leaves each column about 60px wide, so headings split
+   mid-word and the columns' text runs into each other. Rebuilt as a
+   two-by-two flex grid, using padding and margin for spacing since the
+   sanitizer rejects gap. Left-aligned per column, since centred text in
+   narrow columns reads as ragged on both edges. */
+#footer ul.navigation {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  float: none !important;
+  margin: 1em 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+#footer .module {
+  box-sizing: border-box !important;
+  float: none !important;
+  margin: 0 0 1.5em !important;
+  max-width: none !important;
+  padding: 0 0.6em !important;
+  text-align: left !important;
+  width: 50% !important;
+}
+
+#footer .module .heading {
+  margin-bottom: 0.5em !important;
+}
+
+/* Skin-switcher buttons with long names (e.g. a user's own skin title)
+   otherwise overflow their half-width column on one line. */
+#footer .menu button {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+}
+
+/* User dashboard and profile header (username, avatar, and the Post New /
+   Edit Works / Subscribe / Invitations buttons). AO3's own core CSS pins
+   the avatar with position absolute in the top-left corner and reserves
+   room for it only beside the username heading. On a phone the buttons
+   wrap onto a second line underneath, straight into the avatar's corner,
+   and the heading is left so little width that long usernames split
+   mid-word. Rebuilt as a flex row: a smaller avatar in normal flow, the
+   username beside it with the full remaining width, and the buttons on
+   their own full-width row below. Collection pages use the same header
+   with the collection icon as an img inside a div.icon, and additionally
+   indent the description and the "(Open, Moderated)" line 120px to clear
+   the icon for their whole height; those get the full width below the
+   buttons here. Scoped with :has to headers whose icon is a real image
+   (the p.icon user avatar or a div.icon with an img in it), so the news,
+   skins and tag headers, which use an empty div.icon sprite instead, are
+   left alone. */
+.primary.header.module:has(> p.icon),
+.primary.header.module:has(> div.icon > img) {
+  align-items: center !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  min-height: 0 !important;
+}
+
+.primary.header.module > p.icon,
+.primary.header.module > div.icon:has(> img) {
+  flex: 0 0 auto !important;
+  height: 64px !important;
+  margin: 0 0.75em 0.75em 0 !important;
+  order: -1 !important;
+  position: static !important;
+  width: 64px !important;
+}
+
+.primary.header.module > p.icon img,
+.primary.header.module > div.icon > img {
+  height: 64px !important;
+  max-width: 64px !important;
+  width: 64px !important;
+}
+
+.primary.header.module:has(> p.icon) > h2.heading,
+.primary.header.module:has(> div.icon > img) > h2.heading {
+  flex: 1 1 0 !important;
+  font-size: var(--fs-h3) !important;
+  margin: 0 0 0.75em !important;
+  min-width: 0 !important;
+}
+
+.primary.header.module:has(> p.icon) > ul.navigation,
+.primary.header.module:has(> div.icon > img) > ul.navigation {
+  flex: 0 0 100% !important;
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.primary.header.module:has(> div.icon > img) > blockquote,
+.primary.header.module:has(> div.icon > img) > p.type {
+  box-sizing: border-box !important;
+  flex: 0 0 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Fandoms page (media index): the "All Books & Literature..." style
+   buttons at the foot of each category card. AO3 floats their p.actions
+   wrapper right and keeps action links on one line (white-space nowrap),
+   so a long category name like "All Uncategorized Fandoms..." grows wider
+   than the card and, being right-anchored, spills off the card's left
+   edge. Unfloated, allowed to wrap, capped at the card width, and given
+   an auto height so the wrapped second line stays inside the button. */
+#main.media-index li.medium.listbox.group p.actions {
+  float: none !important;
+  max-width: 100% !important;
+  width: auto !important;
+}
+
+#main.media-index li.medium.listbox.group p.actions a {
+  box-sizing: border-box !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  text-align: center !important;
+  white-space: normal !important;
+}
+
+/* Comment form: the comment wrapper, its fieldset and the paragraph
+   around the textarea each carry their own padding, which nests into a
+   noticeably narrower writing box on a phone. Trimmed so the textarea
+   spans the form. */
+div.post.comment {
+  padding: 0.75em !important;
+}
+
+div.post.comment fieldset {
+  padding: 0.75em !important;
+}
+
+div.post.comment fieldset p {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+div.post.comment textarea {
+  width: 100% !important;
+}
+
+/* Lists inside fic text, summaries and notes. AO3's own userstuff CSS
+   pads each list on both sides and then gives every item a further
+   1.75em left margin, so a list starts nearly 60px in and loses another
+   27px on the right: a narrow column of a few words per line on a phone.
+   Collapsed to one modest left indent, just enough for the numbers or
+   bullets, with no right-hand inset. Nested lists still step in by the
+   same amount each level. */
+.userstuff ol,
+.userstuff ul {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 0 0 1.4em !important;
+}
+
+.userstuff li {
+  margin-left: 0 !important;
+}
+
+/* Action buttons and links everywhere (the button-styled links AO3 wraps
+   in ul.actions or p.actions). AO3 keeps each one on a single line and
+   floats the list right, so a long label (a parent work or series title
+   in the edit-work form's "Current parent works" and "Current Series",
+   for example) grows wider than its field and, being right-anchored,
+   spills off the left edge of the screen. Allowed to wrap and capped at
+   the width of whatever contains them. In form fields (a dd) the list is
+   also unfloated and left-aligned, so wrapped buttons line up under the
+   field label instead of hugging the right edge. */
+ul.actions,
+p.actions {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+
+.actions a,
+.actions button,
+.actions input,
+.actions label,
+.action {
+  box-sizing: border-box !important;
+  height: auto !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+dd > ul.actions {
+  float: none !important;
+  text-align: left !important;
+}
+
+/* Comment avatars and byline bars on a phone: a smaller 44px avatar, still
+   pinned to the comment's corner (see style_desktop.css), with the byline
+   padding and minimum height matched to it. AO3's own narrow CSS sizes
+   the icon to 55px and the byline padding to 62px, which this replaces. */
+li.comment div.icon {
+  height: 44px !important;
+  width: 44px !important;
+}
+
+.comment h4.byline,
+li.comment h4.heading.byline {
+  min-height: 44px !important;
+  padding: 11px 0.6em 11px 56px !important;
+}

@@ -1,0 +1,45 @@
+/*
+ * ============================================================
+ * Theme Name: Gilded Frost — Font Loader (Stylus)
+ * Version: 1.0.0
+ * Add-on to: Gilded Frost AO3 Site Skin by intothisshadow
+ * Author URI: https://www.so-obsessed.com
+ * Last Updated: 2026-10-12
+ *
+ * HOW TO USE:
+ * This loads the custom fonts used by the Gilded Frost skin on AO3.
+ * AO3's site skin system cannot load external fonts directly (its CSS
+ * sanitizer rejects @import and @font-face outright), but Stylus (a
+ * browser extension) can.
+ *
+ * INSTALL:
+ * 1. Install the Stylus extension for your browser:
+ *    - Firefox: https://addons.mozilla.org/en-US/firefox/addon/styl-us/
+ *    - Chrome:  https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne
+ *
+ * 2. Click the Stylus icon in your browser toolbar → Manage
+ *
+ * 3. Click "Write new style"
+ *
+ * 4. Paste this entire file into the code editor
+ *
+ * 5. Under "Applies to", click "URLs on the domain" and
+ *    enter:  archiveofourown.org
+ *
+ * 6. Give the style a name (e.g. "AO3 Gilded Frost Fonts") and Save
+ *
+ * That's it. The fonts will load automatically whenever you
+ * visit AO3, and this theme will use them. Without this, headings and
+ * body text fall back to Georgia/serif, which still reads fine — the
+ * custom fonts are a polish layer, not a requirement.
+ * ============================================================
+ *
+ * FONTS LOADED:
+ * - Cinzel       — headings, site title, buttons, nav (400/600/700)
+ * - EB Garamond  — body text, links, tag pills, blurb authors
+ *                  (400 and 700, each in regular and italic; 700 covers
+ *                  tag pills, bold labels and the bold italic blurb authors)
+ * ============================================================
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap');

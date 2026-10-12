@@ -1,0 +1,3788 @@
+/*
+ * ============================================
+ * Theme Name: Gilded Frost - AO3 Site Skin
+ * Version: 1.0.0
+ * Author: intothisshadow
+ * Author URI: https://www.so-obsessed.com
+ * Last Updated: 2026-10-12
+ *
+ * ==============================================================
+ * LINKS & CREDITS
+ * ==============================================================
+ *
+ * CODE & INSTRUCTIONS:
+ *
+ * - Code (Github):        https://github.com/intothisshadow/AO3-SiteSkin_GildedFrost
+ * - Instructions (AO3):   (link added once published)
+ *
+ * FONTS:
+ *
+ * - Cinzel (headings):     https://fonts.google.com/specimen/Cinzel
+ * - EB Garamond (body):    https://fonts.google.com/specimen/EB+Garamond
+ *
+ * AO3 skins can't load web fonts. To see these fonts, install the
+ * companion stylus_fonts.css with the Stylus browser extension; without
+ * it the skin falls back to Georgia/serif.
+ *
+ * CREDITS:
+ *
+ * - Icons: "Replace the AO3 Icons 2.0" by ZerafinaCSS, recoloured for
+ *   Gilded Frost (Section 34)
+ *   https://github.com/ZerafinaCSS/Replace-the-AO3-Icons-2.0
+ *
+ * FIND ME ON:
+ *
+ * - Github:   https://github.com/intothisshadow
+ * - AO3:      https://archiveofourown.org/users/intothisshadow/
+ * - Website:  https://www.so-obsessed.com
+ *
+ * ==============================================================
+ * HOW TO USE
+ * ==============================================================
+ *
+ * DESKTOP SKIN (required):
+ * 1. On AO3, go to My Dashboard, then Skins, then Create Site Skin
+ * 2. Paste this entire CSS into the "CSS" field
+ * 3. Under Media, select "All Media Types"
+ * 4. Save. If you also use the mobile add-on, don't activate this skin
+ *    directly; activate the mobile one instead.
+ *
+ * MOBILE ADD-ON (recommended):
+ * 1. Create a second site skin with the code from style_mobile.css
+ * 2. Under Media, check "Handheld Devices" and "Narrow Screen Devices"
+ * 3. Under Parent Skin, select the desktop skin from above
+ * 4. Save and activate this mobile skin. AO3 applies the desktop parent
+ *    skin alongside it automatically.
+ *
+ * DESKTOP ONLY: skip the add-on and activate the desktop skin directly.
+ *
+ * ==============================================================
+ * TABLE OF CONTENTS
+ * ==============================================================
+ *
+ * 1. Import Fonts
+ * 2. Color Palette
+ * 3. Base & Body
+ * 4. Typography
+ * 5. Links
+ * 6. Tables
+ * 7. Header
+ * 8. Main Content Area
+ * 9. Works & Blurbs
+ * 10. Work Page
+ * 11. Kudos & Interactions
+ * 12. Buttons
+ * 13. Forms & Inputs
+ * 14. Sidebar & Filters
+ * 15. Tags
+ * 16. Listbox
+ * 17. Meta
+ * 18. Roles & States
+ * 19. Pagination
+ * 20. Flash Messages & Notices
+ * 21. Footer
+ * 22. User Dashboard
+ * 23. Collections & Series
+ * 24. Comments
+ * 25. Inbox & Messages
+ * 26. Front Page (Splash)
+ * 27. Index Pages
+ * 28. Profile & Stats Pages
+ * 29. Reading History
+ * 30. System Pages
+ * 31. Scrollbar
+ * 32. Decorative
+ * 33. Selection Color
+ * 34. Replace the AO3 Icons (ZerafinaCSS, recoloured)
+ *
+ * ============================================
+ */
+
+/*
+ * ============================================
+ * 1. Import Fonts
+ * ============================================
+ * AO3's sanitizer rejects @import outright (see stylus_fonts.css for how
+ * to actually load Cinzel/EB Garamond via the Stylus browser extension,
+ * since AO3 site skins can't load external fonts on their own).
+ */
+
+/*
+ * ============================================
+ * 2. Color Palette
+ * ============================================
+ */
+:root {
+  --gf-void:       #0d0f12;   /* near-black background */
+  --gf-stone:      #1a1d23;   /* main surface */
+  --gf-granite:    #252830;   /* card / panel surface */
+  --gf-slate:      #3a3f4b;   /* borders, dividers */
+  --gf-ash:        #8a92a0;   /* muted text — lightened from #6b7280, which
+                                     failed WCAG AA (3.0–4.0:1) as body text on
+                                     all three surface colours; this passes
+                                     4.5:1+ everywhere */
+  --gf-silver:     #9ca3af;   /* body text */
+  --gf-frost:      #c9d3e0;   /* primary text */
+  --gf-white:      #e8edf4;   /* headings */
+  --gf-ice-pale:   #e8f4f8;   /* palette sw.1 — palest icy highlight */
+  --gf-ice-soft:   #c9e7f0;   /* palette sw.2 — soft icy tint */
+  --gf-ice:        #9ed4e3;   /* palette sw.3 — accent (icy blue), lightened */
+  --gf-ice-mid:    #6fa8c4;   /* palette sw.5 — mid accent */
+  --gf-ice-dim:    #3f89a8;   /* palette sw.4 — muted accent, lightened */
+  --gf-gold:       #b8965a;   /* premium accent (castle) */
+  --gf-gold-pale:  #e8d4a8;   /* bright gold — text on gold-tinted pills,
+                                     so text doesn't blend into its own
+                                     background/border (both built from the
+                                     base --gf-gold hue) */
+  --gf-gold-dim:   #7a6038;   /* muted gold */
+  --gf-danger:     #d67878;   /* warnings / kudos hover — lightened from
+                                     #8b3a3a, which was severely below WCAG AA
+                                     (1.9–2.5:1) everywhere it was used as
+                                     text; this passes 4.5:1+ on all surfaces.
+                                     The warning-pill gradient/border tints
+                                     elsewhere use hardcoded rgba() values, not
+                                     this variable, so they're unaffected. */
+  --gf-link:       #9ed4e3;   /* links */
+  --gf-link-hover: #e8f4f8;   /* link hover */
+
+  /* Type scale. Every font-size in this skin should use one of these
+     rather than a one-off value, so sizes stay consistent across pages.
+     rem is anchored to the browser root (16px on desktop), not to the
+     body, so these don't compound through nesting the way em would.
+     style_mobile.css shrinks the root, which scales all of them down
+     together. The exceptions are the site logo, which is brand art, and
+     the author-controlled headings inside fic text (.userstuff h1 to h6),
+     which follow the reading text's own scale. */
+  --fs-xs:   0.875rem;  /* Cinzel caps UI: buttons, nav, footer links, pagination, meta labels */
+  --fs-sm:   1rem;      /* secondary text: tags, blurb stats, dates, footnotes */
+  --fs-md:   1.125rem;  /* small headings: blurb title and author, legends, h4 and h5 */
+  --fs-base: 1.25rem;   /* body and reading text */
+  --fs-h3:   1.25rem;
+  --fs-h2:   1.5rem;
+  --fs-h1:   2rem;
+}
+
+/*
+ * ============================================
+ * 3. Base & Body
+ * ============================================
+ */
+/* Mirrors core.css grouped rule: body, .toggled form, .dynamic form, .secondary, .dropdown */
+body, .toggled form, .dynamic form, .secondary, .dropdown {
+  background: var(--gf-void) !important;
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+}
+
+body {
+  background-attachment: fixed !important;
+  /* Grain texture layers stay on top; a faint icy glow from the top and a
+     deep vertical wash sit behind them as the actual page gradient.
+     Attachment fixed keeps the glow in view while scrolling. Full-page
+     screenshot tools that render the page in one pass (e.g. Firefox's
+     Save full page) leave a fixed background blank below the first
+     screen; Chrome DevTools' "Capture full size screenshot" handles it. */
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 3px), repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.006) 80px, rgba(255,255,255,0.006) 81px), radial-gradient(ellipse at top, rgba(63, 137, 168, 0.12) 0%, transparent 55%), linear-gradient(180deg, #12161f 0%, #0d0f12 45%, #08090b 100%) !important;
+  /* All font sizes come from the --fs-* type scale in the palette
+     section. Add new sizes there rather than as one-off values. */
+  font-size: var(--fs-base) !important;
+  line-height: 1.7 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* core.css gives #header, #footer, #main, #dashboard padding: 1em 3em — zero out header/footer */
+#header, #footer {
+  padding: 0 !important;
+}
+
+/* core.css: li.blurb, fieldset, form dl share a #ddd border */
+li.blurb, fieldset, form dl {
+  border: 1px solid var(--gf-slate) !important;
+}
+
+li.blurb {
+  background: radial-gradient(ellipse at top left, rgba(158, 212, 227, 0.07) 0%, transparent 55%), linear-gradient(160deg, #2f333e 0%, #1c1f26 55%, #14171b 100%) !important;
+}
+
+fieldset, form dl {
+  background: var(--gf-stone) !important;
+}
+
+/*
+ * ============================================
+ * 4. Typography
+ * ============================================
+ */
+/* elements.css sets headings to Georgia, weight 400 — override to Cinzel */
+h1, h2, h3, h4, h5, h6, .heading {
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+h1 { font-size: var(--fs-h1) !important; }
+h2 { font-size: var(--fs-h2) !important; }
+h3 { font-size: var(--fs-h3) !important; }
+h4 { font-size: var(--fs-md) !important; }
+h5 { font-size: var(--fs-md) !important; }
+h6 { font-size: var(--fs-sm) !important; }
+
+/* Footnotes, hints and character counters under form fields, and the
+   news post "Published:" and "Comments:" labels. AO3 sizes these in em relative to
+   whatever they sit in, so they drifted between pages. */
+p.footnote,
+p.character_counter,
+span.published,
+span.comments {
+  font-size: var(--fs-sm) !important;
+}
+
+p {
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+}
+
+/* AO3's own core.css justifies blurb preview excerpts (.blurb blockquote),
+   which reads as uneven rivers of whitespace, especially on narrow phone
+   widths where there are fewer words per line to spread the justification
+   across. No !important needed to hold on mobile — nothing in AO3's own
+   responsive CSS or this skin's style_mobile.css reintroduces justify or
+   center on body text, so this cascades through both breakpoints as-is.
+   Deliberately not applied to a bare p selector: AO3 right-aligns its
+   form buttons through paragraph wrappers (p.submit, p.actions), and a
+   blanket p override pulled every Update / Submit button to the left. */
+.userstuff,
+.userstuff p,
+blockquote,
+.blurb blockquote {
+  text-align: left !important;
+}
+
+/* elements.css: hr is border-bottom: 3px double (inherits colour) */
+hr {
+  border-bottom: 3px double var(--gf-slate) !important;
+}
+
+/* elements.css: blockquote, pre use Lucida Grande */
+blockquote, pre {
+  border-left: 2px solid var(--gf-ice-dim) !important;
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+  padding-left: 0.8em !important;
+}
+
+/* .userstuff blockquotes are fic/chapter text, comment bodies, notes, etc. —
+   real prose, not a quoted excerpt — so they're excluded from the italic
+   treatment below (chaptered fic rendered entirely in italics would be a
+   serious readability regression). */
+blockquote:not(.userstuff) {
+  font-style: italic !important;
+}
+
+strong, b {
+  color: var(--gf-white) !important;
+  font-weight: 700 !important;
+}
+
+em, i {
+  color: var(--gf-gold-pale) !important;
+  font-style: italic !important;
+}
+
+u {
+  text-decoration: underline !important;
+  text-decoration-color: var(--gf-ice-dim) !important;
+  text-underline-offset: 0.15em !important;
+}
+
+/*
+ * ============================================
+ * 5. Links
+ * ============================================
+ */
+/*
+ * elements.css: a, a:link have border-bottom: 1px solid (underline via border)
+ * a:visited has border-bottom: 1px dashed; color: #666
+ * a:hover is color: #999
+ * We remove the border-bottom underlines and use our own colours throughout.
+ */
+a, a:link {
+  border-bottom: none !important;
+  color: var(--gf-link) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+a:visited {
+  border-bottom: none !important;
+  color: var(--gf-link) !important;
+  text-decoration: none !important;
+}
+
+a:visited:hover {
+  border-bottom: none !important;
+  color: var(--gf-link-hover) !important;
+}
+
+a:hover {
+  color: var(--gf-link-hover) !important;
+}
+
+/* elements.css: a:active, a:focus, button:focus get outline: 1px dotted */
+a:active, a:focus, button:focus {
+  outline: 1px dotted var(--gf-ice-dim) !important;
+}
+
+/*
+ * ============================================
+ * 6. Tables
+ * ============================================
+ */
+/* elements.css: table bg is #ddd; thead/tfoot border #bbb; tbody tr border #fff; th/tr:hover bg #fff */
+table {
+  background: var(--gf-stone) !important;
+  border-collapse: collapse !important;
+}
+
+thead, tfoot {
+  border-bottom: 2px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+}
+
+tfoot td {
+  border-top: 1px solid var(--gf-slate) !important;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--gf-granite) !important;
+}
+
+thead td {
+  background: var(--gf-granite) !important;
+  border-bottom: 1px solid var(--gf-void) !important;
+}
+
+/* elements.css: th, tr:hover, col.name all share bg:#fff border:#bbb */
+th {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  letter-spacing: 0.06em !important;
+}
+
+tr:hover {
+  background: rgba(63, 137, 168, 0.05) !important;
+}
+
+col.name {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+}
+
+td {
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+/* elements.css: th a, th a:visited, th a:link have no text-decoration */
+th a, th a:visited, th a:link {
+  border-bottom: none !important;
+  color: var(--gf-ice) !important;
+  text-decoration: none !important;
+}
+
+/*
+ * ============================================
+ * 7. Header
+ * ============================================
+ */
+#header {
+  background: linear-gradient(180deg, #0a0c0f 0%, #111318 60%, #1a1d23 100%) !important;
+  border-image: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) 1 !important;
+  border-style: solid !important;
+  border-width: 0 0 2px 0 !important;
+  box-shadow: 0 1px 0 rgba(158, 212, 227, 0.08), 0 4px 24px rgba(0,0,0,0.8) !important;
+}
+
+#header .logo {
+  display: none !important;
+}
+
+/* Reset AO3's blanket rule that clears bg/border/etc on header children */
+#header a, #header fieldset, #header form, #header p, #header li, #header h1, #small_login dl {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Header's compact search fieldset must not inherit the dramatic
+   padding/margin from the sitewide fieldset "oomph" treatment */
+#header fieldset {
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#header h1 {
+  font-size: 1.5rem !important;
+}
+
+#header .heading a {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 1.5em !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+#header .heading a:hover {
+  background: linear-gradient(90deg, var(--gf-gold) 0%, var(--gf-frost) 45%, var(--gf-ice) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+#header .heading sup {
+  color: var(--gf-ash) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+/* Collection title bar (h2 inside header) */
+#header h2 {
+  border-top: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: none !important;
+}
+
+
+#header .primary {
+  background: #111318 !important;
+  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.5), 0 1px 0 rgba(158,212,227,0.07) !important;
+}
+
+#header .primary a {
+  border-color: transparent !important;
+  border-style: solid !important;
+  border-width: 0 0 2px 0 !important;
+  color: var(--gf-silver) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  padding: 0.75em 1.1em !important;
+  text-transform: uppercase !important;
+}
+
+#header .primary a:hover,
+#header .primary a:focus,
+#header .actions a:hover,
+#header .actions a:focus,
+#header .dropdown:hover a,
+#header .open a {
+  background: linear-gradient(90deg, rgba(158, 212, 227, 0.14) 0%, rgba(201, 211, 224, 0.14) 45%, rgba(184, 150, 90, 0.14) 100%) !important;
+  border-image: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) 1 !important;
+  color: var(--gf-white) !important;
+}
+
+
+#header .menu, #small_login {
+  background: var(--gf-stone) !important;
+  background-image: none !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.75) !important;
+}
+
+#header .menu li {
+  border-bottom: 1px solid var(--gf-slate) !important;
+}
+
+#header .menu li:last-child {
+  border-bottom: none !important;
+}
+
+/* Dropdown link text — overrides AO3's #111 colour */
+#header .primary .menu a,
+#header .dropdown .menu a {
+  border-color: transparent !important;
+  border-style: solid !important;
+  border-width: 0 0 2px 0 !important;
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', serif !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+}
+
+#header .dropdown .menu a:hover,
+#header .dropdown .menu a:focus {
+  background: rgba(158, 212, 227, 0.08) !important;
+  border-image: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) 1 !important;
+  color: var(--gf-frost) !important;
+}
+
+
+#header .user > li > a, #small_login .action {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  border-style: solid !important;
+  border-width: 0 0 2px 0 !important;
+  box-shadow: none !important;
+  color: var(--gf-silver) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  padding: 0.75em 1.1em !important;
+}
+
+#header .user > li > a:hover, #header .user > li > a:focus {
+  background: linear-gradient(90deg, rgba(158, 212, 227, 0.14) 0%, rgba(201, 211, 224, 0.14) 45%, rgba(184, 150, 90, 0.14) 100%) !important;
+  border-image: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) 1 !important;
+  color: var(--gf-white) !important;
+}
+
+/* Greeting dropdown aligns to right */
+#greeting .menu {
+  background: var(--gf-stone) !important;
+  box-shadow: -1px 8px 24px rgba(0,0,0,0.75) !important;
+}
+
+/* Header avatar beside "Hi, username!": a small version of the icy frame
+   the profile/dashboard avatar gets (see User Dashboard), brightening on
+   hover and keyboard focus. AO3 sits the image on the text baseline, about 5px above
+   the greeting's centre; the relative nudge lines them up without moving
+   anything else in the header. */
+#greeting p.icon img {
+  border: 1px solid var(--gf-ice-dim) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 6px rgba(63, 137, 168, 0.35) !important;
+  box-sizing: border-box !important;
+  height: 32px !important;
+  position: relative !important;
+  top: 5px !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  vertical-align: middle !important;
+  width: 32px !important;
+}
+
+#greeting p.icon a:hover img,
+#greeting p.icon a:focus img {
+  border-color: var(--gf-ice) !important;
+  box-shadow: 0 0 10px rgba(158, 212, 227, 0.45) !important;
+}
+
+
+#header .search {
+  color: var(--gf-silver) !important;
+}
+
+#header #search .text {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+#header #search input:focus {
+  color: var(--gf-white) !important;
+  outline: 1px dotted var(--gf-ice-dim) !important;
+}
+
+#header #search .button {
+  color: var(--gf-silver) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+/*
+ * ============================================
+ * 8. Main Content Area
+ * ============================================
+ */
+#main, .wrapper {
+  background: transparent !important;
+}
+
+/* region-main: #main has padding: 0.5em 2.5em 3.5em — we keep but adjust */
+#main {
+  /* AO3's own 05-region-main.css sets #main font-size to 0.875em, quietly
+     shrinking any text that doesn't have its own explicit size override to
+     87.5% of the 20px body text (17.5px) on every page — most visibly on
+     the search forms, whose labels/inputs have no size override of their
+     own. Restoring 1em here brings plain unstyled text back to the site's
+     normal 20px reading size, matching everything we've explicitly sized. */
+  font-size: 1em !important;
+  padding: 0.5em 2.5em 3.5em !important;
+}
+
+/* Dashboard pages: content beside the floated sidebar. AO3 (and this skin
+   previously) pushed #main right with a fixed 14em left margin, which
+   doesn't track the sidebar's real width and left a wide empty gutter
+   (75px or more) between the sidebar and the content. With no left margin
+   and flow-root, #main instead sits directly beside the float, so the
+   gutter is exactly its 2em left padding whatever width the sidebar ends
+   up. style_mobile.css keeps margin-left at 0 on phones, where the
+   sidebar stacks above. */
+#main.dashboard {
+  display: flow-root !important;
+  margin: 0.5em auto 1em 0 !important;
+  padding-left: 2em !important;
+}
+
+/* region-main: #main.home has extra horizontal padding */
+#main.home {
+  padding: 2em 7.5em 3.5em !important;
+}
+
+/* region-main: error pages use background images — keep those, just ensure bg colour is dark */
+#main.errors,
+#main.error-502,
+#main.error-503-maintenance {
+  background-color: transparent !important;
+}
+
+/* region-main: session page (login) has logo bg image — keep, ensure dark bg */
+#main.session {
+  background-color: transparent !important;
+}
+
+/*
+ * ============================================
+ * 9. Works & Blurbs
+ * ============================================
+ */
+li.work.blurb,
+.work.blurb,
+.bookmark.blurb {
+  background: radial-gradient(ellipse at top left, rgba(158, 212, 227, 0.07) 0%, transparent 55%), linear-gradient(160deg, #2f333e 0%, #1c1f26 55%, #14171b 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 2px 12px rgba(0,0,0,0.5) !important;
+  margin-bottom: 1.2em !important;
+  transition: border-color 0.25s, box-shadow 0.25s !important;
+}
+
+li.work.blurb:hover,
+.work.blurb:hover {
+  border-left-color: var(--gf-ice) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(158, 212, 227, 0.06) !important;
+}
+
+/* blurb-sheet: .blurb h4 a:link is #900 — retheme work titles */
+.blurb h4 a:link, .blurb h4 img {
+  color: var(--gf-frost) !important;
+}
+
+/* Work titles */
+.work.blurb h4.heading a,
+.work.blurb .heading a {
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* Blurb title line for every blurb type (works, series, bookmarks,
+   collections), not just .work.blurb, and the heading itself too, so the
+   plain-text "by" between title and author matches them instead of
+   inheriting AO3's larger h4 size. */
+.blurb .header.module h4.heading,
+.blurb .header.module h4.heading a {
+  font-size: var(--fs-md) !important;
+}
+
+.work.blurb h4.heading a:hover {
+  color: var(--gf-white) !important;
+}
+
+/*
+ * Fic title gradient — scoped to the title link only. The title is always
+ * the first link in the heading; the author links (rel author) and any
+ * gift recipients that follow it get their own style below. AO3's CSS
+ * sanitizer rejects @supports outright, so this applies unconditionally
+ * like poudre.css does — background-clip: text has near-universal support
+ * in current evergreen browsers.
+ *
+ * Scoped to .blurb .header.module h4.heading rather than .work.blurb
+ * specifically: series (li.series.blurb), bookmarked works (li.bookmark.
+ * blurb — bookmarks don't carry a "work" class, per
+ * css_classes_for_bookmarkable_blurb), and collections (li.collection.
+ * picture.blurb) all render their title the same way, inside a
+ * div.header.module h4.heading, so a work-only selector was silently
+ * skipping all three.
+ */
+.blurb .header.module h4.heading:not(.byline) a:first-of-type {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+.blurb .header.module h4.heading:not(.byline) a:first-of-type:hover {
+  background: linear-gradient(90deg, var(--gf-gold) 0%, var(--gf-frost) 45%, var(--gf-ice) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Blurb author (and gift recipient) links: every link in the title heading
+   after the title itself. Gold italic in EB Garamond with normal
+   capitalisation, matching the work-page byline (.preface .byline a), so
+   it reads as a different thing from the all-caps gradient title in both
+   colour and typeface. Colour alone wasn't enough, because the title
+   gradient itself ends in gold. */
+.blurb .header.module h4.heading:not(.byline) a:not(:first-of-type) {
+  -webkit-text-fill-color: var(--gf-gold) !important;
+  color: var(--gf-gold) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+  font-size: var(--fs-md) !important;
+  font-style: italic !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.blurb .header.module h4.heading:not(.byline) a:not(:first-of-type):hover {
+  -webkit-text-fill-color: var(--gf-gold-pale) !important;
+  color: var(--gf-gold-pale) !important;
+}
+
+/* blurb-sheet: .blurb .header .heading, .blurb .header ul have bg: transparent — keep that, override color */
+.blurb .header .heading,
+.blurb .header ul {
+  background: transparent !important;
+}
+
+/* Fandom tags */
+/* AO3 joins fandom links with plain-text ", " — no wrapping element to hide
+   via ::after, so the heading's own text colour is made transparent and the
+   links get an explicit colour, which makes the inherited comma invisible. */
+.work.blurb .fandoms,
+.work .fandom.heading,
+h5.fandoms.heading,
+.fandoms.heading {
+  color: transparent !important;
+}
+
+/* Fandom — icy-to-gold gradient, the site's signature sweep (violet is
+   reserved for the news section's own identity, so it doesn't belong here).
+   Marks fandom as the headline tag category, distinct from the pure icy
+   blue of characters and pure gold of relationships. */
+.work.blurb .fandoms a,
+.work .fandom.heading a,
+h5.fandoms.heading a,
+.fandoms.heading a,
+dl.meta dd.fandom a {
+  background: linear-gradient(135deg, rgba(63, 137, 168, 0.24) 0%, rgba(184, 150, 90, 0.16) 100%) !important;
+  border: 1px solid rgba(158, 212, 227, 0.5) !important;
+  border-radius: 2px !important;
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', serif !important;
+  padding: 0.05em 0.4em !important;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.work.blurb .fandoms a:hover,
+.work .fandom.heading a:hover,
+h5.fandoms.heading a:hover,
+.fandoms.heading a:hover,
+dl.meta dd.fandom a:hover {
+  background: linear-gradient(135deg, rgba(63, 137, 168, 0.45) 0%, rgba(184, 150, 90, 0.32) 100%) !important;
+  border-color: var(--gf-gold) !important;
+  box-shadow: 0 0 10px rgba(184, 150, 90, 0.3) !important;
+  color: var(--gf-white) !important;
+}
+
+/* Tags outside the work tag groups (e.g. a bookmarker's own tags) and
+   their label, sized to match the pills above and the meta labels. */
+.blurb .tags a {
+  font-size: var(--fs-sm) !important;
+}
+
+.blurb h6.meta.heading {
+  font-size: var(--fs-xs) !important;
+}
+
+/* Keep every tag pill (fandoms and the warning, relationship, character
+   and freeform groups) in one piece. As plain inline links, a pill that
+   hit the end of a line split across two rows, and each fragment got its
+   own partial border and background, which looked broken, most visibly
+   in a phone's narrow blurb column. inline-block makes a pill move to the
+   next row whole; a name too long for a whole row still wraps, but inside
+   a single box, and max-width stops it from overflowing the column. */
+.work.blurb .fandoms a,
+.work .fandom.heading a,
+h5.fandoms.heading a,
+.fandoms.heading a,
+dl.meta dd.fandom a,
+.work.blurb .tags a,
+dl.meta dd.warning a,
+dl.meta dd.relationship a,
+dl.meta dd.character a,
+dl.meta dd.freeform a {
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  line-height: 1.35 !important;
+  margin-bottom: 0.25em !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  vertical-align: top !important;
+}
+
+/* The blurb fandom line is an h5 of bare links separated by plain-text
+   commas and spaces (already coloured transparent above). Once the pills
+   wrap as whole blocks, that invisible ", " still takes up width, so it
+   ends up at the start of a new row and indents the first pill there.
+   font-size 0 on the heading collapses those text nodes to nothing. The
+   links are rem-sized, so they keep their size and get their spacing
+   back from a margin instead. */
+h5.fandoms.heading {
+  font-size: 0 !important;
+}
+
+h5.fandoms.heading a {
+  font-size: var(--fs-sm) !important;
+  margin-right: 0.3em !important;
+}
+
+
+/*
+ * blurb-sheet: ul.required-tags is position:absolute, top:0, width:60px.
+ * li/a/span are all display:block, 25px x 25px.
+ * The spans use background-image sprites from /images/imageset.png.
+ * We must NOT override background on these spans or the icons vanish.
+ */
+
+.blurb ul.required-tags {
+  margin: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  width: 60px !important;
+}
+
+.blurb ul.required-tags li,
+.blurb ul.required-tags li a,
+.blurb ul.required-tags li span {
+  display: block !important;
+  height: 25px !important;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+  padding-left: 0 !important;
+  width: 25px !important;
+}
+
+/* Let a long title or fandom list wrap under the icons. AO3 pins the
+   icons (above) to the header's top-left corner and pushes the title
+   and fandom headings 65px right to clear them, so every line stays
+   indented even well below the icons, wasting a column of space that
+   matters on a phone. The icons can't simply be floated instead, because
+   they come after the headings in the markup. So the header's own
+   ::before, which renders before everything else inside it, becomes an
+   invisible icon-sized float: the headings flow beside it and then take
+   the full width once they're past it. display: flow-root keeps that
+   float inside the header, so a short header still clears the icons
+   and doesn't let the tag list below wrap around it. */
+.blurb div.header.module {
+  display: flow-root !important;
+}
+
+.blurb div.header.module::before {
+  content: "" !important;
+  float: left !important;
+  height: 56px !important;
+  width: 65px !important;
+}
+
+.blurb div.header.module > h4.heading,
+.blurb div.header.module > h5.heading {
+  margin-left: 0 !important;
+}
+
+/* sprite spans: only allow background-repeat; never set background-color */
+.blurb ul.required-tags li span {
+  background-color: transparent !important;
+  background-repeat: no-repeat !important;
+}
+
+/* .blurb span.text hides the text labels visually — preserve that */
+.blurb span.text {
+  color: transparent !important;
+  font-size: 0.001em !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+/*
+ * Tag links (warnings, relationships, characters, freeforms)
+ * Each tag group gets its own gradient + border + hover treatment so the
+ * blurb list (and the matching dl.meta on the work page) reads at a glance:
+ * warnings = danger red, relationships = gold, characters = icy blue,
+ * freeforms = neutral slate.
+ */
+.work.blurb .tags a,
+dl.meta dd.warning a,
+dl.meta dd.relationship a,
+dl.meta dd.character a,
+dl.meta dd.freeform a {
+  border-radius: 2px !important;
+  font-size: var(--fs-sm) !important;
+  padding: 0.05em 0.4em !important;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Warnings — danger red */
+.work.blurb .tags li.warnings a,
+dl.meta dd.warning a,
+li.warnings a {
+  background: linear-gradient(135deg, rgba(139, 58, 58, 0.28) 0%, rgba(80, 30, 30, 0.14) 100%) !important;
+  /* A muted brick-red border here reads as no border at all against the
+     similarly dark-red background and card — brighter/more saturated red
+     needed for it to actually show up, unlike the higher-contrast borders
+     on the other tag groups (gold, icy blue, teal, grey). */
+  border: 1px solid rgba(214, 90, 90, 0.75) !important;
+  color: #d99a9a !important;
+}
+
+.work.blurb .tags li.warnings a:hover,
+dl.meta dd.warning a:hover,
+li.warnings a:hover {
+  background: linear-gradient(135deg, rgba(139, 58, 58, 0.5) 0%, rgba(90, 34, 34, 0.3) 100%) !important;
+  border-color: var(--gf-danger) !important;
+  box-shadow: 0 0 10px rgba(139, 58, 58, 0.35) !important;
+  color: #f4d4d4 !important;
+}
+
+/* Relationships — gold. Text uses the brighter gold-pale shade rather than
+   the base gold used for the background/border tint, so it doesn't blend
+   into its own pill (the other tag groups pair a dim border/bg with a
+   bright text colour the same way — see characters below). */
+.work.blurb .tags li.relationships a,
+dl.meta dd.relationship a,
+li.relationships a {
+  background: linear-gradient(135deg, rgba(184, 150, 90, 0.24) 0%, rgba(122, 96, 56, 0.12) 100%) !important;
+  border: 1px solid rgba(184, 150, 90, 0.45) !important;
+  color: var(--gf-gold-pale) !important;
+}
+
+.work.blurb .tags li.relationships a:hover,
+dl.meta dd.relationship a:hover,
+li.relationships a:hover {
+  background: linear-gradient(135deg, rgba(184, 150, 90, 0.45) 0%, rgba(122, 96, 56, 0.28) 100%) !important;
+  border-color: var(--gf-gold) !important;
+  box-shadow: 0 0 10px rgba(184, 150, 90, 0.3) !important;
+  color: var(--gf-white) !important;
+}
+
+/* Characters — icy blue */
+.work.blurb .tags li.characters a,
+dl.meta dd.character a,
+li.characters a {
+  background: linear-gradient(135deg, rgba(63, 137, 168, 0.26) 0%, rgba(158, 212, 227, 0.1) 100%) !important;
+  border: 1px solid rgba(63, 137, 168, 0.5) !important;
+  color: var(--gf-ice) !important;
+}
+
+.work.blurb .tags li.characters a:hover,
+dl.meta dd.character a:hover,
+li.characters a:hover {
+  background: linear-gradient(135deg, rgba(63, 137, 168, 0.5) 0%, rgba(158, 212, 227, 0.22) 100%) !important;
+  border-color: var(--gf-ice) !important;
+  box-shadow: 0 0 10px rgba(158, 212, 227, 0.35) !important;
+  color: var(--gf-ice-pale) !important;
+}
+
+/* Freeforms — neutral slate */
+.work.blurb .tags li.freeforms a,
+dl.meta dd.freeform a,
+li.freeforms a {
+  background: linear-gradient(135deg, rgba(58, 63, 75, 0.7) 0%, rgba(37, 40, 48, 0.5) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+}
+
+.work.blurb .tags li.freeforms a:hover,
+dl.meta dd.freeform a:hover,
+li.freeforms a:hover {
+  background: linear-gradient(135deg, rgba(88, 95, 110, 0.8) 0%, rgba(58, 63, 75, 0.6) 100%) !important;
+  border-color: var(--gf-ash) !important;
+  color: var(--gf-frost) !important;
+}
+
+/*
+ * Category & Rating — work-page meta table only (these render as a single
+ * plain link rather than a tag list in the blurb, but should still match
+ * the pill treatment given to the other tag groups above).
+ */
+dl.meta dd.category a {
+  background: linear-gradient(135deg, rgba(58, 90, 84, 0.28) 0%, rgba(37, 60, 56, 0.14) 100%) !important;
+  border: 1px solid rgba(58, 90, 84, 0.5) !important;
+  border-radius: 2px !important;
+  color: #9cc7bd !important;
+  padding: 0.05em 0.4em !important;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+dl.meta dd.category a:hover {
+  background: linear-gradient(135deg, rgba(58, 90, 84, 0.5) 0%, rgba(37, 60, 56, 0.3) 100%) !important;
+  border-color: #9cc7bd !important;
+  box-shadow: 0 0 10px rgba(58, 90, 84, 0.35) !important;
+  color: var(--gf-white) !important;
+}
+
+dl.meta dd.rating a {
+  background: linear-gradient(135deg, rgba(190, 110, 60, 0.26) 0%, rgba(120, 66, 34, 0.12) 100%) !important;
+  border: 1px solid rgba(190, 110, 60, 0.5) !important;
+  border-radius: 2px !important;
+  color: #e0b088 !important;
+  padding: 0.05em 0.4em !important;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+dl.meta dd.rating a:hover {
+  background: linear-gradient(135deg, rgba(190, 110, 60, 0.5) 0%, rgba(120, 66, 34, 0.3) 100%) !important;
+  border-color: #e0b088 !important;
+  box-shadow: 0 0 10px rgba(190, 110, 60, 0.35) !important;
+  color: var(--gf-white) !important;
+}
+
+/* Stats bar — blurb-sheet floats this right */
+.work.blurb dl.stats {
+  border-top: 1px solid var(--gf-slate) !important;
+  color: var(--gf-ash) !important;
+  font-family: 'EB Garamond', serif !important;
+  font-size: var(--fs-sm) !important;
+  margin-top: 0.8em !important;
+  padding-top: 0.6em !important;
+}
+
+.work.blurb dl.stats dd,
+.work.blurb dl.stats dt {
+  color: var(--gf-ash) !important;
+}
+
+/* blurb-sheet: .blurb .datetime is position:absolute, top:0, right:0 */
+.blurb .datetime {
+  color: var(--gf-ash) !important;
+  font-family: 'EB Garamond', serif !important;
+  font-size: var(--fs-sm) !important;
+  font-style: italic !important;
+}
+
+/* blurb-sheet: .reading h4.viewed has bg:#ddd */
+.reading h4.viewed {
+  background: var(--gf-stone) !important;
+  color: var(--gf-silver) !important;
+}
+
+/* blurb-sheet: .bookmark .user has border: 1px solid #ccc */
+.bookmark .user {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+}
+
+.bookmark .user .meta {
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+/* blurb-sheet: .bookmark .count a is #069. Uses --gf-ice, not
+   --gf-ice-dim, since the latter fails WCAG AA (3.8–4.3:1) as text on
+   the stone/granite surfaces — it's kept for borders/accents elsewhere,
+   which only need the lower 3:1 non-text contrast threshold. */
+.bookmark .count a {
+  color: var(--gf-ice) !important;
+}
+
+.bookmark .count a:hover,
+.bookmark .count a:focus {
+  color: var(--gf-frost) !important;
+}
+
+/* blurb-sheet: .picture .header has border-bottom: 1px solid #ccc */
+.picture .header {
+  border-bottom: 1px solid var(--gf-slate) !important;
+}
+
+/* blurb-sheet: .item dl.visibility has bg:#eee */
+.item dl.visibility {
+  background: var(--gf-stone) !important;
+}
+
+/*
+ * ============================================
+ * 10. Work Page
+ * ============================================
+ */
+#workskin,
+.userstuff {
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+  font-size: var(--fs-base) !important;
+}
+
+/*
+ * In-story headings — h1 through h6 as an author might use them inside
+ * their own chapter text (scene breaks, part dividers, etc). Scoped to
+ * .userstuff rather than #workskin directly so it doesn't touch the fic
+ * title, byline, or "Summary:"/"Notes:" labels, which sit as siblings of
+ * .userstuff and already have their own dedicated styling elsewhere.
+ * Each level gets a different gradient + underline treatment so the
+ * hierarchy reads clearly at a glance, fading out toward h6.
+ */
+.userstuff h1 {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 50%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  border-bottom: 3px double var(--gf-slate) !important;
+  color: transparent !important;
+  font-size: 1.8rem !important;
+  margin-bottom: 0.6em !important;
+  padding-bottom: 0.3em !important;
+}
+
+.userstuff h2 {
+  background: linear-gradient(90deg, var(--gf-gold) 0%, var(--gf-frost) 50%, var(--gf-ice) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  border-bottom: 2px solid var(--gf-ice-dim) !important;
+  color: transparent !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 0.5em !important;
+  padding-bottom: 0.25em !important;
+}
+
+.userstuff h3 {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-ice-pale) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  border-bottom: 1px dotted var(--gf-slate) !important;
+  color: transparent !important;
+  font-size: 1.25rem !important;
+  margin-bottom: 0.4em !important;
+  padding-bottom: 0.2em !important;
+}
+
+.userstuff h4 {
+  background: linear-gradient(90deg, var(--gf-gold) 0%, var(--gf-silver) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-size: 1.05rem !important;
+  margin-bottom: 0.4em !important;
+}
+
+.userstuff h5 {
+  border-bottom: 1px dotted var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-size: 0.95rem !important;
+  font-style: italic !important;
+  margin-bottom: 0.3em !important;
+  padding-bottom: 0.15em !important;
+  text-transform: none !important;
+}
+
+.userstuff h6 {
+  color: var(--gf-ash) !important;
+  font-size: 0.85rem !important;
+  font-style: italic !important;
+  letter-spacing: 0.02em !important;
+  margin-bottom: 0.3em !important;
+}
+
+/* Scene-break rule — authors use hr for section breaks inside chapter
+   text, so it gets the same gradient treatment as the in-story headings
+   above instead of the plain slate double-border used for hr elsewhere
+   on the site (forms, dashboard, etc — left untouched). A tapered bar
+   (transparent at both ends) reads as a divider rather than a stray line. */
+.userstuff hr {
+  background: linear-gradient(90deg, transparent 0%, var(--gf-ice-dim) 20%, var(--gf-gold) 50%, var(--gf-ice-dim) 80%, transparent 100%) !important;
+  border: none !important;
+  height: 2px !important;
+  margin: 2em auto !important;
+  width: 40% !important;
+}
+
+#chapters {
+  background: linear-gradient(160deg, var(--gf-granite) 0%, var(--gf-stone) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5) !important;
+  box-sizing: border-box !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 52em !important;
+  padding: 2em 2.5em !important;
+}
+
+/*
+ * Work title on the work page — this lives in div.preface.group (the fic
+ * title is h2.title.heading, the byline is h3.byline.heading), NOT in
+ * dl.work.meta.group (the Rating/Category/Tags table further down, styled
+ * separately under "Meta" below). An earlier pass mistakenly scoped these
+ * rules to .work.meta.group, so they matched nothing on the real page.
+ */
+/* display:table shrinks the box to the text's actual width (and lets
+   margin: auto still center it) — without this, the title stays a
+   full-width block and the centered short text only ever shows a thin
+   sliver near the gradient's midpoint, which reads as flat off-white
+   instead of a visible icy-blue-to-gold sweep. */
+.preface .title.heading {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-white) !important;
+  display: table !important;
+  margin: 0 auto 1em !important;
+  padding-bottom: 0.5em !important;
+}
+
+/* Fic title gradient — AO3's CSS sanitizer rejects @supports outright, so
+   this applies unconditionally like poudre.css does — background-clip:
+   text has near-universal support in current evergreen browsers. */
+.preface .title.heading {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Author */
+.preface .byline a {
+  color: var(--gf-gold) !important;
+  font-style: italic !important;
+}
+
+/* AO3 doesn't include the word "by" in the work-page byline markup (unlike
+   the blurb list, where it's already plain text) — prepend it here. */
+.preface .byline.heading::before {
+  color: var(--gf-silver) !important;
+  content: "by " !important;
+  font-family: 'EB Garamond', serif !important;
+  font-style: italic !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Chapter nav */
+#chapter-index, 
+.chapter.preface.group {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  padding: 1em !important;
+}
+
+/* Notes before the chapter and endnotes after it (both .notes.module) */
+.notes.module {
+  background: linear-gradient(135deg, rgba(37, 40, 48, 0.55) 0%, rgba(10, 12, 15, 0.65) 100%) !important;
+  border-left: 3px solid var(--gf-gold-dim) !important;
+  border-radius: 0 2px 2px 0 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 2px 12px rgba(0,0,0,0.35) !important;
+  box-sizing: border-box !important;
+  margin: 1.5em 0 !important;
+  padding: 1em 1.4em !important;
+}
+
+.notes.module h3.heading {
+  border-bottom: 1px solid var(--gf-gold-dim) !important;
+  color: var(--gf-gold) !important;
+  display: inline-block !important;
+  font-size: var(--fs-md) !important;
+  margin-bottom: 0.6em !important;
+  padding-bottom: 0.3em !important;
+}
+
+/*
+ * ============================================
+ * 10a. Annotation Module
+ * ============================================
+ * AO3's own .annotation (image + caption block authors can insert in a
+ * work) uses `gap` for spacing between the image and notes — AO3's CSS
+ * sanitizer strips `gap` declarations, so margins on the children replace
+ * it here instead.
+ */
+.annotation {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35) !important;
+}
+
+.annotation .image {
+  margin: 0 0.643em 0.643em 0 !important;
+}
+
+.annotation .notes {
+  color: var(--gf-silver) !important;
+  margin-bottom: 0.643em !important;
+}
+
+.annotation .notes code {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  color: var(--gf-frost) !important;
+  padding: 0.1em 0.4em !important;
+}
+
+.annotation .notes .footnote {
+  color: var(--gf-ash) !important;
+}
+
+/*
+ * ============================================
+ * 11. Kudos & Interactions
+ * ============================================
+ */
+/* Scoped to p.kudos (the kudos-givers line under a work) because AO3 also
+   puts the kudos class on the Kudos stat in work meta and blurb stats,
+   which would otherwise pick up this whole card treatment. */
+p.kudos {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  border-top: 2px solid var(--gf-ice-dim) !important;
+  box-sizing: border-box !important;
+  /* Contains the floated kudos icon (see the KUDOS ICON section further
+     down), so a short one-line kudos list still wraps around the whole
+     icon instead of letting it hang out of the card. */
+  display: flow-root !important;
+  padding: 1em !important;
+}
+
+p.kudos a {
+  color: var(--gf-silver) !important;
+}
+
+/* Kudos / comment count badges */
+.stats .kudos-count,
+.stats .comments-count {
+  color: var(--gf-ice) !important;
+}
+
+/*
+ * ============================================
+ * 12. Buttons
+ * ============================================
+ */
+
+/*
+ * actions: the big shared selector covering all button-like elements
+ * Default: bg #eee → #ddd → #bbb gradient, color:#444, border:#bbb/#aaa
+ *
+ * #footer's own nav (Customize/About/Contact/Development) uses the same
+ * ul.navigation.actions markup, so without :not(#footer *) every footer
+ * link would turn into a bordered button pill instead of staying a plain
+ * text link. The real button skin-switcher elements in that same footer
+ * nav are left alone — those are genuine buttons, not links.
+ *
+ * The bare button selector skips anything inside .tox, the Rich Text
+ * editor (TinyMCE). Its toolbar buttons are plain buttons with dark
+ * built-in SVG icons, so this dark gradient made the icons unreadable.
+ * TinyMCE keeps its own light toolbar instead, which matches the white
+ * writing area below it (that area is an iframe a site skin can't style).
+ */
+.actions a:not(:where(#footer *, #header .primary *, #header .user > li > a, #header .user .menu *)), .actions a:link:not(:where(#footer *, #header .primary *, #header .user > li > a, #header .user .menu *)), .action, .action:link,
+.actions button, .actions input,
+input[type="submit"], button:not(:where(.tox *)), .current, .actions label {
+  background: var(--gf-granite) !important;
+  background-image: linear-gradient(var(--gf-stone) 2%, var(--gf-granite) 95%, var(--gf-void) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-bottom: 1px solid var(--gf-void) !important;
+  border-radius: 0.25em !important;
+  border-top: 2px solid var(--gf-ice-dim) !important;
+  box-shadow: none !important;
+  color: var(--gf-silver) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  padding: 0.25em 0.75em !important;
+  text-transform: uppercase !important;
+  transition: all 0.2s !important;
+}
+
+/* actions: button font is Lucida Grande — override to Cinzel (not in
+   the Rich Text editor, see above) */
+button:not(:where(.tox *)) {
+  font-family: 'Cinzel', serif !important;
+}
+
+/* actions: visited action links color:#111 */
+.actions a:visited, .action:visited, .action a:link, .action a:visited {
+  color: var(--gf-silver) !important;
+}
+
+/* actions: hover/focus — was color:#900, inset box-shadow #bbb */
+.actions a:hover:not(:where(#footer *, #header .primary *, #header .user > li > a, #header .user .menu *)), .actions button:hover, .actions input:hover,
+.actions a:focus:not(:where(#footer *, #header .primary *, #header .user > li > a, #header .user .menu *)), .actions button:focus, .actions input:focus,
+label.action:hover, .action:hover, .action:focus {
+  background: var(--gf-stone) !important;
+  background-image: none !important;
+  border-color: var(--gf-ice-dim) !important;
+  box-shadow: inset 0 0 4px rgba(158, 212, 227, 0.12) !important;
+  color: var(--gf-frost) !important;
+}
+
+/* actions: active/current — was bg:#ccc, border:#fff, inset shadow #333 */
+.actions a:active:not(:where(#footer *, #header .primary *, #header .user > li > a, #header .user .menu *)), .current, a.current, a:link.current, .current a:visited {
+  background: rgba(63, 137, 168, 0.2) !important;
+  background-image: none !important;
+  border-color: var(--gf-ice-dim) !important;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.4) !important;
+  color: var(--gf-ice) !important;
+}
+
+/* actions: disabled label bg:#ccc */
+.actions label.disabled {
+  background: var(--gf-stone) !important;
+  color: var(--gf-ash) !important;
+}
+
+.actions .disabled select {
+  background: transparent !important;
+  border-color: var(--gf-slate) !important;
+  color: var(--gf-ash) !important;
+}
+
+/* actions: primary submit */
+input[type="submit"].primary,
+.submit input[type="submit"] {
+  background: rgba(63, 137, 168, 0.15) !important;
+  background-image: none !important;
+  border-color: var(--gf-ice-dim) !important;
+  color: var(--gf-ice) !important;
+}
+
+input[type="submit"].primary:hover,
+.submit input[type="submit"]:hover {
+  background: rgba(63, 137, 168, 0.28) !important;
+  border-color: var(--gf-ice) !important;
+  box-shadow: 0 0 16px rgba(158, 212, 227, 0.2) !important;
+}
+
+/* actions: .delete a, span.delete — was color:#900, box-shadow */
+.delete a, span.delete {
+  box-shadow: -1px -1px 2px rgba(0,0,0,0.4) !important;
+  color: var(--gf-danger) !important;
+}
+
+/* actions: .secondary popup panel — was bg:#fff, border:#bbb, shadow #bbb */
+.secondary {
+  background: var(--gf-stone) !important;
+  border: 2px solid var(--gf-slate) !important;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.5) !important;
+}
+
+/* actions: work navigation download panel — bg:#fff, border:#bbb */
+.work.navigation .download,
+.javascript .work.navigation .download .secondary {
+  background: var(--gf-stone) !important;
+  border: 2px solid var(--gf-slate) !important;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.5) !important;
+}
+
+.work.navigation .download .secondary,
+.javascript .work.navigation .download {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* actions: .actions a.symbol / .action a — borderless, no background */
+.actions a.symbol, .action a {
+  background: none !important;
+  background-image: none !important;
+  border: 0 !important;
+}
+
+/*
+ * ============================================
+ * 13. Forms & Inputs
+ * ============================================
+ */
+
+/* interactions: fieldset, form dl etc have bg:#ddd, border:#f3efec, box-shadow inset #999 */
+form dl, fieldset dl dl, fieldset fieldset fieldset,
+fieldset fieldset dl dl, dd.hideme, form blockquote.userstuff {
+  background: var(--gf-stone) !important;
+  border: 2px solid var(--gf-slate) !important;
+  box-shadow: inset 1px 0 5px rgba(0,0,0,0.4) !important;
+}
+
+/* fieldset gets its own, more dramatic treatment — a gradient panel with
+   an icy top accent and real depth, instead of a flat grey box */
+fieldset {
+  background: linear-gradient(160deg, var(--gf-stone) 0%, var(--gf-void) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 0 2px 2px 0 !important;
+  border-top: 3px solid var(--gf-ice-dim) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 4px 18px rgba(0,0,0,0.45) !important;
+  margin-bottom: 1.5em !important;
+  padding: 1.5em 1.5em 1.5em !important;
+}
+
+
+/* interactions: nested fieldset dl, fieldset.actions reset to transparent/none */
+fieldset dl, fieldset.actions, fieldset dl fieldset dl {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* interactions: fieldset fieldset, fieldset dl dl, form blockquote.userstuff are bg:#fff */
+fieldset fieldset, fieldset dl dl, form blockquote.userstuff {
+  background: var(--gf-granite) !important;
+}
+
+/* interactions: form dt has border-bottom:#f3efec */
+form dt {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+/* interactions: input, textarea have border:#bbb, box-shadow inset #ccc, font Lucida Grande */
+input, textarea {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  /* AO3 sizes many of these at width 100% (the comment box, for one).
+     Without border-box, the padding above is added on top of that full
+     width, so the field pokes out past the right edge of its form, most
+     visibly on a phone. */
+  box-sizing: border-box !important;
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', serif !important;
+  max-width: 100% !important;
+  padding: 0.4em 0.7em !important;
+  transition: border-color 0.2s !important;
+}
+
+/* interactions: input:focus, select:focus, textarea:focus have bg:#f3efec */
+input:focus, select:focus, textarea:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  background: var(--gf-granite) !important;
+  border-color: var(--gf-ice-dim) !important;
+  box-shadow: 0 0 0 2px rgba(63, 137, 168, 0.15) !important;
+  outline: none !important;
+}
+
+/* interactions: checkbox/radio box-shadow: none */
+input[type="checkbox"], input[type="radio"] {
+  box-shadow: none !important;
+}
+
+label {
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+/* interactions: .LV_invalid has bg:#efd1d1, border/color:#900 */
+.LV_invalid {
+  background: rgba(139, 58, 58, 0.2) !important;
+  border: 1px solid var(--gf-danger) !important;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.4) !important;
+  color: var(--gf-ice) !important;
+}
+
+/* interactions: .LV_invalid_field border:#c00 */
+.LV_invalid_field,
+input.LV_invalid_field:hover,
+input.LV_invalid_field:active,
+textarea.LV_invalid_field:hover,
+textarea.LV_invalid_field:active {
+  border: 1px solid var(--gf-danger) !important;
+}
+
+/* interactions: .LV_invalid:before is the speech-bubble triangle, border-color:#900 */
+.LV_invalid:before {
+  border-color: var(--gf-danger) transparent !important;
+}
+
+/* interactions: autocomplete dropdown bg:#fff, border:#eee, color:#000 */
+.autocomplete div.dropdown ul {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  box-shadow: 1px 3px 5px rgba(0,0,0,0.5) !important;
+  color: var(--gf-frost) !important;
+}
+
+/* interactions: autocomplete hover/selected uses red-ao3.png tile + #900 bg */
+.autocomplete .dropdown ul li:hover,
+.autocomplete .dropdown li.selected {
+  background: var(--gf-ice-dim) !important;
+  color: var(--gf-white) !important;
+}
+
+/* interactions: .required .autocomplete, .autocomplete .notice color:#2a2a2a */
+.required .autocomplete, .autocomplete .notice {
+  color: var(--gf-silver) !important;
+}
+
+/* interactions: .ui-sortable li bg:#eee, border:#ddd */
+.ui-sortable li {
+  background: var(--gf-stone) !important;
+  border: 2px solid var(--gf-slate) !important;
+  box-shadow: none !important;
+}
+
+.ui-sortable li:hover {
+  background: var(--gf-granite) !important;
+  border: 2px solid var(--gf-ice-dim) !important;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.4) !important;
+}
+
+/* interactions: datepicker bg:#fff */
+#ui-datepicker-div {
+  background: var(--gf-stone) !important;
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.6) !important;
+  color: var(--gf-silver) !important;
+}
+
+.ui-datepicker table {
+  background: var(--gf-granite) !important;
+}
+
+.ui-datepicker td {
+  border: 1px solid var(--gf-slate) !important;
+}
+
+.ui-datepicker tr:hover {
+  background: var(--gf-stone) !important;
+}
+
+.ui-datepicker td:hover {
+  background: rgba(63, 137, 168, 0.15) !important;
+}
+
+/* interactions: qtip tooltip bg:#d1e1ef, border:#c2d2df */
+.qtip-content {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+}
+
+/* interactions: #modal bg:#fff, border:#eee */
+#modal {
+  background: var(--gf-stone) !important;
+  border: 10px solid var(--gf-slate) !important;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.6) !important;
+}
+
+#modal .content {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+}
+
+/* interactions: #modal.img footer bg:rgba(0,0,0,0.6) */
+#modal.img .footer {
+  background: rgba(0, 0, 0, 0.75) !important;
+  color: var(--gf-frost) !important;
+}
+
+/* interactions: div.dynamic bg:#fff */
+div.dynamic {
+  background: var(--gf-stone) !important;
+}
+
+/* interactions: verbose legend bg:#fff, border:#ddd */
+form.verbose legend, .verbose form legend {
+  background: linear-gradient(135deg, var(--gf-granite) 0%, var(--gf-stone) 100%) !important;
+  border: 2px solid var(--gf-ice-dim) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.5), 0 0 0 1px rgba(158, 212, 227, 0.1) !important;
+  color: var(--gf-ice) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-md) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  padding: 0.5em 1.2em !important;
+  text-transform: uppercase !important;
+}
+
+/* interactions: form.single fieldset border:#ddd */
+form.single fieldset {
+  background: transparent !important;
+  border: 1px solid var(--gf-slate) !important;
+  box-shadow: none !important;
+}
+
+form.single legend {
+  color: var(--gf-frost) !important;
+}
+
+/* interactions: .toggled form, .dynamic form bg:#fff, border:#ccc */
+.toggled form, .dynamic form {
+  background: var(--gf-stone) !important;
+  border: 2px solid var(--gf-slate) !important;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.4) !important;
+}
+
+/* interactions: .dynamic form fieldset, .toggled form fieldset reset border/bg */
+.dynamic form fieldset, .toggled form fieldset,
+.toggled form dl, .secondary .toggled form, .secondary form {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* interactions: form dd.required color:#2a2a2a */
+form dd.required {
+  color: var(--gf-silver) !important;
+}
+
+/*
+ * ============================================
+ * 14. Sidebar & Filters
+ * ============================================
+ */
+/* Sort and Filter sidebar. border-box so the panel's own padding counts
+   inside its 22% width. Before, the padding was added on top, which left
+   only about 20px between the results and the panel. The fieldset and
+   list inside each carried their own margin and padding as well, nesting
+   three insets deep and truncating the filter buttons (Relationships,
+   Additional Tags) to about 210px. */
+form.filters {
+  box-sizing: border-box !important;
+  float: right !important;
+  width: 22% !important;
+}
+
+form.filters fieldset {
+  margin: 0 !important;
+  padding: 0.75em 0 !important;
+}
+
+form.filters dl {
+  margin: 0 !important;
+}
+
+#sidebar,
+.filters {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  padding: 1em !important;
+}
+
+/* searchbrowse: .filters h4 is display:inline, font-weight:700 */
+#sidebar h4, #sidebar h5,
+.filters h4, .filters h5 {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-ice) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-sm) !important;
+  letter-spacing: 0.1em !important;
+  margin-bottom: 0.6em !important;
+  padding-bottom: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+/* searchbrowse: .filters dl dl resets border/bg/shadow to none */
+.filters dl dl {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* searchbrowse: .filters .group dt.bookmarker has border-top: 1px solid #f3efec */
+.filters .group dt.bookmarker {
+  border-top: 1px solid var(--gf-slate) !important;
+}
+
+/* searchbrowse: .filters .expander uses arrow-right.gif bg, color:#2a2a2a.
+   These rows had no hover feedback and no visual separation from each
+   other, so the whole category list (Ratings/Warnings/Fandoms/...) read
+   as one flat block of text instead of a set of clickable rows. */
+.filters .expander {
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--gf-slate) !important;
+  box-sizing: border-box !important;
+  color: var(--gf-silver) !important;
+  padding: 0.5em 0.3em !important;
+  text-align: left !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+  width: 100% !important;
+}
+
+.filters .expander:hover {
+  background: rgba(158, 212, 227, 0.08) !important;
+  color: var(--gf-frost) !important;
+}
+
+.filters .expander:focus {
+  outline: 1px dotted var(--gf-ice-dim) !important;
+}
+
+/* The expanded checkbox/radio list under each category */
+.filters .expandable ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0.5em 0 0.5em 0.3em !important;
+}
+
+.filters .expandable li {
+  padding: 0.25em 0 !important;
+}
+
+.filters .expandable label {
+  color: var(--gf-silver) !important;
+}
+
+/* searchbrowse: .filters .warning is font-weight:500 */
+.filters .warning {
+  color: var(--gf-gold) !important;
+}
+
+/* searchbrowse: search tooltip bg is #ddd, border #fff */
+.search [role="tooltip"] {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+}
+
+/* searchbrowse: form.search input border-top-color: #999 */
+form.search input[type="text"] {
+  border-top-color: var(--gf-slate) !important;
+}
+
+
+/*
+ * searchbrowse: .filters .indicator:before is the visual checkbox/radio replacement
+ * Default: bg #eee, color #aaa, border, gradient white→#ddd→#bbb
+ * Checked checkbox: bg #deffde (green tint), color #008000
+ * Checked exclude: bg #fedede (red tint), color #f00
+ * Checked radio: radial-gradient dot
+ * We retheme all of these to the Stark palette.
+ */
+
+.filters .indicator:before {
+  background: var(--gf-granite) !important;
+  background-image: linear-gradient(var(--gf-stone) 2%, var(--gf-granite) 95%, var(--gf-void) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-ash) !important;
+}
+
+.filters input:focus + .indicator + span {
+  outline: 1px dotted var(--gf-ice-dim) !important;
+}
+
+.filters input:checked + .indicator:before {
+  border-color: var(--gf-ice) !important;
+}
+
+.filters input:checked + .indicator + span {
+  color: var(--gf-frost) !important;
+}
+
+/* checked checkbox: replace green tint with icy blue tint */
+.filters [type="checkbox"]:checked + .indicator:before {
+  background: rgba(63, 137, 168, 0.2) !important;
+  background-image: linear-gradient(rgba(158,212,227,0.05) 2%, rgba(63,137,168,0.2) 95%, rgba(63,137,168,0.35) 100%) !important;
+  color: var(--gf-ice) !important;
+}
+
+/* checked radio: keep radial dot but use dark colours */
+.filters [type="radio"]:checked + .indicator:before {
+  background: var(--gf-stone) !important;
+  background-image: radial-gradient(ellipse at center, rgba(158,212,227,0.9) 0%, rgba(158,212,227,0.9) 11%, rgba(0,0,0,0) 23%), linear-gradient(to bottom, var(--gf-slate) 0%, var(--gf-granite) 5%, var(--gf-stone) 100%) !important;
+}
+
+/* exclude checkbox checked: replace red tint with danger tint */
+.filters .exclude [type="checkbox"]:checked + .indicator:before {
+  background: rgba(139, 58, 58, 0.2) !important;
+  background-image: linear-gradient(rgba(255,255,255,0.05) 2%, rgba(139,58,58,0.2) 95%, rgba(139,58,58,0.35) 100%) !important;
+  color: var(--gf-danger) !important;
+}
+
+/*
+ * ============================================
+ * 15. Tags
+ * ============================================
+ */
+/* .tag/a.tag use --gf-ice for the text colour (--gf-ice-dim fails
+   WCAG AA as text on stone/granite) but keep --gf-ice-dim for the
+   dotted underline, which only needs the lower non-text contrast bar */
+.tag {
+  color: var(--gf-ice) !important;
+  font-family: 'EB Garamond', serif !important;
+}
+
+/* types: a.tag color:#111, border-bottom:1px dotted */
+a.tag {
+  border-bottom: 1px dotted var(--gf-ice-dim) !important;
+  color: var(--gf-ice) !important;
+}
+
+/* types: a.tag:hover bg:#900, color:#fff. White text on this icy-blue fill
+   only reaches 3.3:1 (fails WCAG AA); dark void text reaches 4.9:1. */
+a.tag:hover, .listbox .heading a.tag:visited:hover {
+  background: var(--gf-ice-dim) !important;
+  color: var(--gf-void) !important;
+}
+
+/* types: .actions .reindex a border-bottom:#900 */
+.actions .reindex a {
+  border-bottom: 3px solid var(--gf-ice-dim) !important;
+}
+
+/* types: tag cloud — remap dark-red colour scale to icy blue scale */
+a.cloud1 { color: #1a2a30 !important; }
+a.cloud2 { color: #1e3340 !important; }
+a.cloud3 { color: #243d4d !important; }
+a.cloud4 { color: #2e5060 !important; }
+a.cloud5 { color: #3a6478 !important; }
+a.cloud6 { color: #3f89a8 !important; }
+a.cloud7 { color: #6fa0b8 !important; }
+a.cloud8 { color: #9ed4e3 !important; }
+
+/* types: .wrapper box-shadow:#aaa — remove on dark bg */
+.wrapper {
+  box-shadow: none !important;
+}
+
+/* types: dl.index dd bg:#ededed */
+dl.index dd {
+  background: var(--gf-granite) !important;
+}
+
+/* types: a.work color:#900, Georgia */
+a.work {
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', Georgia, serif !important;
+}
+
+/* types: .warning, .warnings, span.byline, a.user font-weight:bold — keep, add colour */
+span.byline, a.user {
+  color: var(--gf-silver) !important;
+}
+
+.warning, .warnings {
+  color: var(--gf-gold) !important;
+}
+
+/* types: span.series .divider color:#777 */
+span.series .divider {
+  color: var(--gf-ash) !important;
+}
+
+/* types: dl.stats bg:none, box-shadow:none — already transparent, ensure text colour */
+dl.stats {
+  color: var(--gf-ash) !important;
+}
+
+dl.stats dt, dl.stats dd {
+  color: var(--gf-ash) !important;
+}
+
+/* types: .statistics .index li:nth-of-type(even) bg:#eee */
+.statistics .index li:nth-of-type(even) {
+  background: var(--gf-granite) !important;
+}
+
+/* Remove commas */
+.tags li::after,
+.work .fandom.heading li::after,
+.fandoms.heading li::after,
+.work .character.heading li::after,
+.characters.heading li::after,
+.work .relationship.heading li::after,
+.relationships.heading li::after,
+.work .freeform.heading li::after,
+.freeforms.heading li::after,
+.work .warning.heading li::after,
+.warnings.heading li::after,
+.work .category.heading li::after,
+.category.heading li::after,
+ul.tags li::after,
+ul.commas li::after {
+  content: "" !important;
+  display: none !important;
+}
+
+/*
+ * ============================================
+ * 16. Listbox
+ * ============================================
+ */
+
+/* listbox: bg:#ddd, border:#ccc, box-shadow:#fff outline */
+.listbox, fieldset fieldset.listbox {
+  background: var(--gf-stone) !important;
+  border: 2px solid var(--gf-slate) !important;
+  box-shadow: 0 0 0 1px var(--gf-void) !important;
+}
+
+/* listbox: heading color:#2a2a2a */
+.listbox > .heading, .listbox .heading a:visited {
+  color: var(--gf-frost) !important;
+}
+
+/* listbox: .index bg:#fff, inset shadow:#bbb */
+.listbox .index {
+  background: var(--gf-granite) !important;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.4) !important;
+}
+
+/* listbox: li.blurb resets box-shadow to none — keep */
+.listbox li.blurb {
+  box-shadow: none !important;
+}
+
+/*
+ * ============================================
+ * 17. Meta
+ * ============================================
+ */
+
+/* Stats row (Published, Words, Chapters, Comments, Kudos, Bookmarks,
+   Hits) in both the work page and series page meta panels. AO3 floats
+   each label and value, which top-aligns them: the small Cinzel-caps
+   labels sat visibly higher than the larger EB Garamond values. At the
+   end of a row a value could also drop away from its label. Here they're
+   plain inline text, so each pair shares one baseline. The work markup
+   has nothing between the items (no spaces), and the series markup has
+   line breaks between them, which white-space nowrap collapses to
+   unbreakable spaces. Either way nowrap forbids wrapping anywhere, and an
+   invisible breakable space after each value re-allows it only between
+   pairs, never between a label and its own value. AO3 also sets
+   dl.stats to text-align right, which the floats used to ignore; as
+   inline text the row would follow it, so it's set back to left to line
+   up with the other rows' values. */
+dl.meta dd.stats dl.stats {
+  text-align: left !important;
+  white-space: nowrap !important;
+}
+
+dl.meta dd.stats dl.stats dt,
+dl.meta dd.stats dl.stats dd {
+  display: inline !important;
+  float: none !important;
+}
+
+dl.meta dd.stats dl.stats dd::after {
+  content: " ";
+  white-space: normal;
+}
+
+/* meta: dl.meta — the work meta table gets its own panel treatment */
+dl.meta {
+  background: linear-gradient(160deg, var(--gf-granite) 0%, var(--gf-stone) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+  border-radius: 0 2px 2px 0 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 4px 20px rgba(0,0,0,0.5) !important;
+  box-sizing: border-box !important;
+  padding: 1.2em 1.6em !important;
+}
+
+/* meta: dl.meta .wrapper border-bottom:#ccc, box-shadow:none */
+dl.meta .wrapper {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  box-shadow: none !important;
+  padding: 0.5em 0 !important;
+}
+
+dl.meta .wrapper:last-child {
+  border-bottom: none !important;
+}
+
+dl.meta dt {
+  color: var(--gf-ice) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+dl.meta dd {
+  color: var(--gf-frost) !important;
+}
+
+/* meta: .news dl.meta has no border */
+.news dl.meta {
+  border: none !important;
+}
+
+/* News post meta row ("Published:", "Tags:", etc.) — a soft violet/gold
+   tint echoing the news post title gradient, instead of a bare row. */
+.news .wrapper {
+  background: linear-gradient(135deg, rgba(201, 179, 224, 0.1) 0%, rgba(184, 150, 90, 0.07) 100%) !important;
+  border-left: 3px solid #c9b3e0 !important;
+  border-radius: 0 2px 2px 0 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  margin-bottom: 0.5em !important;
+  padding: 0.6em 1em !important;
+}
+
+/*
+ * ============================================
+ * 18. Roles & States
+ * ============================================
+ */
+
+/* roles: .own, .draft, .unread, .child, .unwrangled, .unreviewed bg:#ededed */
+.own, .draft, .draft .wrapper, .unread, .child, .unwrangled, .unreviewed {
+  background: var(--gf-granite) !important;
+  opacity: 0.95 !important;
+}
+
+/* roles: .draft has dashed border */
+.draft {
+  border: 2px dashed var(--gf-slate) !important;
+}
+
+/*
+ * roles: span.unread, .replied, span.claimed, .actions span.defaulted
+ * spoof the .current button style — bg:#ccc, color:#900
+ */
+span.unread, .replied, span.claimed, .actions span.defaulted {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-bottom: 1px solid var(--gf-void) !important;
+  color: var(--gf-ice) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.actions span.defaulted {
+  color: var(--gf-silver) !important;
+}
+
+/* roles: .draggable, .droppable, span.requested, .nominations .rejected color:#900 */
+.draggable, .droppable, span.requested, .nominations .rejected {
+  color: var(--gf-danger) !important;
+}
+
+/* roles: span.offered, .replied, .nominations .approved color:#008000 */
+span.offered, .replied, .nominations .approved {
+  color: var(--gf-ice) !important;
+}
+
+/* roles: .nominations .approved bg:#d1f0d1 (green tint) */
+.nominations .approved {
+  background: rgba(63, 137, 168, 0.15) !important;
+}
+
+/* roles: .nominations .rejected bg:#efd1d1 (red tint) */
+.nominations .rejected {
+  background: rgba(139, 58, 58, 0.15) !important;
+}
+
+/* roles: span.offered.requested color:#876714 (amber) */
+span.offered.requested {
+  color: var(--gf-gold) !important;
+}
+
+/* roles: #dashboard.own (the nav container, not any "own"-classed blurb
+   nested inside a *.dashboard listing page) and .comment span.unreviewed
+   reset to transparent. This used to be written as ".dashboard .own" — a
+   descendant selector — but AO3 also puts class="dashboard" on #main for
+   series/bookmarks/works index pages, so it was unintentionally wiping
+   out the gradient on every "my own" series/collection/work blurb card
+   nested there too. */
+#dashboard.own, .comment span.unreviewed {
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+/*
+ * ============================================
+ * 19. Pagination
+ * ============================================
+ */
+ol.pagination li a,
+ol.pagination li span {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  letter-spacing: 0.06em !important;
+  padding: 0.3em 0.7em !important;
+  transition: all 0.2s !important;
+}
+
+ol.pagination li a:hover {
+  background: rgba(63, 137, 168, 0.12) !important;
+  border-color: var(--gf-ice-dim) !important;
+  color: var(--gf-frost) !important;
+}
+
+ol.pagination li.current span {
+  background: rgba(63, 137, 168, 0.2) !important;
+  border-color: var(--gf-ice-dim) !important;
+  color: var(--gf-ice) !important;
+}
+
+/*
+ * ============================================
+ * 20. Flash Messages & Notices
+ * ============================================
+ */
+.flash:empty {
+  display: none !important;
+}
+
+.flash,
+.notice,
+.caution,
+.error,
+#header .notice {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+  border-radius: 0 2px 2px 0 !important;
+  color: var(--gf-frost) !important;
+  font-family: 'EB Garamond', serif !important;
+  padding: 0.8em 1.2em !important;
+}
+
+.error {
+  border-left-color: var(--gf-danger) !important;
+}
+
+/*
+ * ============================================
+ * 21. Footer
+ * ============================================
+ */
+#footer {
+  background: #0a0c0f !important;
+  border-top: 1px solid var(--gf-slate) !important;
+  /* Without border-box, this padding adds on top of the footer's
+     already-auto-resolved width and pushes the whole page ~46px wider
+     than the viewport — a sitewide horizontal scrollbar/shift on every
+     page, since #footer renders everywhere. */
+  box-sizing: border-box !important;
+  color: var(--gf-ash) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  padding: 1.5em 2em !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+}
+
+#footer .heading {
+  font-size: var(--fs-sm) !important;
+}
+
+#footer a {
+  color: var(--gf-ash) !important;
+  font-weight: 700 !important;
+}
+
+#footer a:hover {
+  color: var(--gf-silver) !important;
+}
+
+/*
+ * ============================================
+ * 22. User Dashboard
+ * ============================================
+ */
+/* dashboard-sheet: #dashboard li has padding: 0 */
+#dashboard li {
+  padding: 0 !important;
+}
+
+/* dashboard-sheet: #dashboard .secondary has right: auto */
+#dashboard .secondary {
+  right: auto !important;
+}
+
+#dashboard a, #dashboard span {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--gf-silver) !important;
+  font-family: 'EB Garamond', serif !important;
+  font-size: var(--fs-sm) !important;
+}
+
+/* Sidebar links were flattening into identical dark boxes — an icy left
+   accent bar plus a faint tint gives each item a visible edge at rest. */
+#dashboard a {
+  background: linear-gradient(90deg, rgba(158, 212, 227, 0.06) 0%, transparent 60%) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+}
+
+#dashboard a:hover {
+  background: linear-gradient(90deg, rgba(158, 212, 227, 0.16) 0%, transparent 75%) !important;
+  border-left-color: var(--gf-ice) !important;
+  color: var(--gf-white) !important;
+}
+
+#dashboard ul {
+  border-top: 2px solid var(--gf-slate) !important;
+  padding: 1.286em 0 !important;
+}
+
+#dashboard .current {
+  background: rgba(63, 137, 168, 0.12) !important;
+  color: var(--gf-ice) !important;
+}
+
+/* Every dashboard sidebar (your own "My Stuff" one, collections, and any
+   other page with a #dashboard): replaces AO3's red top/bottom bars with
+   the skin's signature ice/frost/gold sweep (the same one under the
+   header). The news dashboard keeps its own violet variant, below, which
+   wins because its selector is more specific. This used to target only
+   #dashboard.own, so collection pages still showed AO3's red bars.
+   Applied via border-image since border-color can't take a gradient;
+   left/right widths are 0 so only the top and bottom bars render.
+   border-image ignores border-radius, so the bars are square-ended. */
+#dashboard {
+  background: transparent !important;
+  border-image: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) 1 !important;
+  border-style: solid !important;
+  border-width: 15px 0 !important;
+}
+
+/* News/admin-post "Page Summary" nav — same frost/violet/gold sweep as the
+   news post titles, applied via border-image since border-color can't take
+   a gradient. border-width is 0 on the left/right sides, so only the top
+   and bottom bars render. */
+#dashboard.admin.region {
+  background: transparent !important;
+  border-image: linear-gradient(90deg, var(--gf-frost) 0%, #c9b3e0 50%, var(--gf-gold) 100%) 1 !important;
+  border-style: solid !important;
+  border-width: 15px 0 !important;
+}
+
+/* Hovered link border in the news dashboard picks up the same gradient */
+#dashboard.admin.region a:hover {
+  border: 1px solid !important;
+  border-image: linear-gradient(90deg, var(--gf-frost) 0%, #c9b3e0 50%, var(--gf-gold) 100%) 1 !important;
+}
+
+/* Current/active link in the news dashboard — violet, the news gradient's
+   middle stop, instead of the icy tint the real dashboard's .current uses */
+#dashboard.admin.region .current {
+  border: 1px solid #c9b3e0 !important;
+  border-radius: 2px !important;
+}
+
+/*
+ * Dashboard/profile avatar and collection icon: the same frame as the
+ * header avatar beside "Hi, username!" (thin icy border, soft glow,
+ * brightening on hover and keyboard focus), just larger. The frame sits
+ * on the image itself, so the user avatar (an img inside p.icon) and the
+ * collection icon (an img inside div.icon) share one rule. The news,
+ * skins and tag headers use an empty div.icon sprite with no img, so they
+ * are unaffected; the news one has its own gradient frame further down.
+ * AO3's icon_display() gives the p wrapper and the img the same icon
+ * class, which is why the wrapper is only sized here, not framed.
+ */
+.primary.header.module p.icon {
+  display: inline-block !important;
+  height: 100px !important;
+  width: 100px !important;
+}
+
+.primary.header.module .icon img {
+  border: 1px solid var(--gf-ice-dim) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 6px rgba(63, 137, 168, 0.35) !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  float: none !important;
+  height: 100px !important;
+  margin: 0 !important;
+  max-width: 100px !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  width: 100px !important;
+}
+
+.primary.header.module .icon a:hover img,
+.primary.header.module .icon a:focus img,
+.primary.header.module div.icon:hover > img {
+  border-color: var(--gf-ice) !important;
+  box-shadow: 0 0 10px rgba(158, 212, 227, 0.45) !important;
+}
+
+/*
+ * ============================================
+ * 23. Collections & Series
+ * ============================================
+ */
+.series.work ul.series {
+  border-left: 2px solid var(--gf-gold-dim) !important;
+  color: var(--gf-ash) !important;
+  font-style: italic !important;
+  padding-left: 1em !important;
+}
+
+/* Collection profile sections (Intro, FAQ, Rules): AO3 floats a small
+   jump-link button list right, just before each section's underlined
+   heading. The heading was full-width, so its underline ran straight
+   under the buttons and they sat on top of the line. flow-root makes the
+   heading end where the floated buttons begin, so the underline stops
+   short of them, with a 1em gap. The rule only changes layout where a
+   floated button list comes first, so other module headings are
+   unaffected. */
+#main .module > ul.actions ~ h3.heading {
+  display: flow-root !important;
+}
+
+#main .module > ul.actions:has(~ h3.heading) {
+  margin-left: 1em !important;
+}
+
+/*
+ * ============================================
+ * 24. Comments
+ * ============================================
+ */
+#comments {
+  margin-top: 1.5em !important;
+}
+
+div.comment,
+li.comment {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 2px solid var(--gf-slate) !important;
+  border-radius: 0 2px 2px 0 !important;
+  margin-bottom: 1em !important;
+  padding: 1em 1.2em !important;
+  transition: border-color 0.2s ease !important;
+}
+
+div.comment:hover,
+li.comment:hover {
+  border-left-color: var(--gf-ice-dim) !important;
+}
+
+div.comment div.comment,
+li.comment li.comment {
+  background: var(--gf-stone) !important;
+  margin-left: 1.5em !important;
+  margin-top: 1em !important;
+}
+
+/* Byline bar (commenter name and date). AO3's default gives it a
+   hardcoded light-grey background and 108px of left padding for its own
+   100px icon. Here the bar is at least as tall as the 56px avatar pinned
+   beside it (see the avatar rule below), with 72px of left padding to
+   clear it and vertical padding that centres a single line of name/date
+   on the avatar. Longer bylines simply make the bar taller. */
+.comment h4.byline,
+li.comment h4.heading.byline {
+  background: linear-gradient(90deg, rgba(63, 137, 168, 0.14) 0%, transparent 85%) !important;
+  border-radius: 2px !important;
+  box-sizing: border-box !important;
+  margin: 0 0 0.6em !important;
+  min-height: 56px !important;
+  padding: 17px 0.8em 17px 72px !important;
+}
+
+li.comment h4.byline a,
+li.comment h4.byline a:visited {
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-md) !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Inbox byline reads "commenter on [work title]" (inbox/_inbox_comment_
+   contents.html.erb) — the work title is always the last link in the h4,
+   so it alone gets the fic-title gradient. Scoped to ol.comment.index.group
+   (the inbox listing, per inbox/show.html.erb) and ul.abbreviated.comment.
+   group (the "Unread messages" module on the frontpage, per home/_inbox_
+   module.html.erb — reuses the same partial) rather than plain li.comment,
+   since regular work-page comment threads (.thread li.comment) often have
+   only one link in the byline — the commenter's own name — which must
+   stay plain frost, not gradiented like a title. */
+ol.comment.index.group li.comment h4.byline a:last-of-type,
+ol.comment.index.group li.comment h4.byline a:last-of-type:visited,
+ul.abbreviated.comment.group li.comment h4.byline a:last-of-type,
+ul.abbreviated.comment.group li.comment h4.byline a:last-of-type:visited {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+ol.comment.index.group li.comment h4.byline a:last-of-type:hover,
+ul.abbreviated.comment.group li.comment h4.byline a:last-of-type:hover {
+  background: linear-gradient(90deg, var(--gf-gold) 0%, var(--gf-frost) 45%, var(--gf-ice) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+li.comment .posted.datetime,
+li.comment .edited.datetime {
+  color: var(--gf-ash) !important;
+  font-family: 'EB Garamond', serif !important;
+  font-size: var(--fs-sm) !important;
+  font-style: italic !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Commenter avatar. AO3 floats it and pulls it up over the byline bar
+   with a negative top margin, which only lines up while the bar is
+   exactly one line tall. On a phone the name and date wrap, the bar
+   grows, and the floated avatar ended up beside the comment text,
+   indenting its first line. It is now pinned to the comment's top-left
+   corner (the exact spot where the byline bar starts, since both sit at
+   the comment's 1em by 1.2em padding) and takes no space in the flow, so
+   it can't indent anything.
+
+   Same frame as the header and dashboard avatars: thin icy border, soft
+   glow, brighter on hover. It sits on the div.icon wrapper rather than
+   the img, so the anonymous and guest icons (a span, not an img) get it
+   too. AO3 gives the wrapper and the img the same icon class, hence the
+   separate div.icon and img selectors. */
+li.comment {
+  position: relative !important;
+}
+
+li.comment div.icon {
+  border: 1px solid var(--gf-ice-dim) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 6px rgba(63, 137, 168, 0.35) !important;
+  box-sizing: border-box !important;
+  float: none !important;
+  height: 56px !important;
+  left: 1.2em !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  top: 1em !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  width: 56px !important;
+}
+
+li.comment .icon img {
+  border: 0 !important;
+  border-radius: 0 !important;
+  display: block !important;
+  float: none !important;
+  height: 100% !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+li.comment div.icon:hover,
+li.comment div.icon:focus-within {
+  border-color: var(--gf-ice) !important;
+  box-shadow: 0 0 10px rgba(158, 212, 227, 0.45) !important;
+}
+
+/* The comment body doesn't need the site-wide blockquote left border and
+   indent (see Typography): comments aren't pull quotes. */
+li.comment blockquote.userstuff {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+.thread li.comment:not(.even) {
+  background: var(--gf-granite) !important;
+}
+
+.thread .even {
+  background: rgba(63, 137, 168, 0.08) !important;
+}
+
+/*
+ * ============================================
+ * 25. Inbox & Messages
+ * ============================================
+ */
+li.message,
+#inbox-messages li {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  margin-bottom: 0.8em !important;
+  padding: 0.75em 1em !important;
+}
+
+li.message.unread,
+#inbox-messages li.unread {
+  background: rgba(63, 137, 168, 0.08) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+}
+
+#inbox-messages h4.subject a,
+#inbox-messages h4.subject a:visited,
+.inbox h4.subject a,
+.inbox h4.subject a:visited,
+li.message h4 a,
+li.message h4 a:visited,
+.message h4.heading a,
+.message h4.heading a:visited {
+  background: linear-gradient(90deg, var(--gf-ice) 0%, var(--gf-frost) 45%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+}
+
+#inbox-messages h4.subject a:hover,
+.inbox h4.subject a:hover,
+li.message h4 a:hover,
+.message h4.heading a:hover {
+  background: linear-gradient(90deg, var(--gf-gold) 0%, var(--gf-frost) 45%, var(--gf-ice) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+fieldset.comments ol.comment.index.group li.comment,
+.splash ul.abbreviated.comment.group li.comment {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+}
+
+fieldset.comments ol.comment.index.group li.comment.unread,
+.splash ul.abbreviated.comment.group li.comment.unread {
+  border-left: 3px solid var(--gf-ice-dim) !important;
+}
+
+/*
+ * ============================================
+ * 26. Front Page (Splash)
+ * ============================================
+ */
+/* Two-column layout — AO3 disallows CSS Grid and `gap`, so this uses
+   flexbox with space-between + percentage widths instead. .intro.module
+   (the logged-out signup banner) spans the full row on its own; every
+   other module pairs up two-per-row. */
+.splash {
+  align-items: flex-start !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+}
+
+.splash > .module {
+  box-sizing: border-box !important;
+  width: 48% !important;
+}
+
+.splash > .intro.module {
+  width: 100% !important;
+}
+
+.splash .favorite,
+.splash .browse,
+.splash .news,
+.splash .random.readings.module,
+.splash .latest.messages.module,
+.splash .social.module {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 0 2px 2px 0 !important;
+  border-top: 2px solid var(--gf-ice-dim) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5) !important;
+  margin-bottom: 1em !important;
+  padding: 1em 1.2em !important;
+}
+
+.splash .favorite h3,
+.splash .favorite h4,
+.splash .module h3,
+.splash .latest.messages.module h3,
+.splash .social.module h3 {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-md) !important;
+  letter-spacing: 0.06em !important;
+  margin: 0 0 0.75em 0 !important;
+  padding-bottom: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+/* Favorite tags are fandom tags — give them the same icy-to-gold pill
+   treatment as fandom tags elsewhere instead of a plain underlined link. */
+.splash .favorite ul li a,
+.splash .favorite ul li a:visited {
+  background: linear-gradient(135deg, rgba(63, 137, 168, 0.24) 0%, rgba(184, 150, 90, 0.16) 100%) !important;
+  border: 1px solid rgba(158, 212, 227, 0.5) !important;
+  border-radius: 2px !important;
+  color: var(--gf-frost) !important;
+  display: inline-block !important;
+  margin: 0 0.3em 0.4em 0 !important;
+  padding: 0.15em 0.6em !important;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.splash .favorite ul li a:hover {
+  background: linear-gradient(135deg, rgba(63, 137, 168, 0.45) 0%, rgba(184, 150, 90, 0.32) 100%) !important;
+  border-color: var(--gf-gold) !important;
+  box-shadow: 0 0 10px rgba(184, 150, 90, 0.3) !important;
+  color: var(--gf-white) !important;
+}
+
+.splash .favorite ul li {
+  display: inline-block !important;
+}
+
+/* "My Inbox", "All News" etc. beside each front-page module heading.
+   Covers every module, not just Messages: AO3's own .splash .link a sets
+   0.583em, which rendered the News module's link at about 10px. */
+.splash .module h3 span.link a,
+.splash .module h3 span.link a:visited {
+  color: var(--gf-ash) !important;
+  font-family: 'EB Garamond', serif !important;
+  font-size: var(--fs-sm) !important;
+  text-transform: none !important;
+}
+
+.splash .module h3 span.link a:hover {
+  color: var(--gf-ice) !important;
+}
+
+.splash .latest.messages.module p.note,
+.splash .social.module p.note {
+  color: var(--gf-silver) !important;
+  font-style: italic !important;
+  margin-bottom: 0.75em !important;
+}
+
+/*
+ * Front-page News module — matches the same violet/frost/gold theme used
+ * on the dedicated news/admin_posts pages, even though the markup here is
+ * different (h4.heading + p.meta + blockquote.userstuff instead of
+ * h3.heading + dl.meta + div.userstuff).
+ */
+.splash .latest.news.module li.post {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  margin-bottom: 1em !important;
+  padding-bottom: 1em !important;
+}
+
+.splash .latest.news.module li.post:last-child {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.splash .latest.news.module li.post h4.heading a {
+  background: linear-gradient(135deg, var(--gf-frost) 0%, #c9b3e0 50%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+.splash .latest.news.module li.post h4.heading a:hover {
+  background: linear-gradient(135deg, var(--gf-gold) 0%, #c9b3e0 50%, var(--gf-frost) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+.splash .latest.news.module li.post p.meta {
+  background: linear-gradient(135deg, rgba(201, 179, 224, 0.1) 0%, rgba(184, 150, 90, 0.07) 100%) !important;
+  border-left: 3px solid #c9b3e0 !important;
+  border-radius: 0 2px 2px 0 !important;
+  box-sizing: border-box !important;
+  color: var(--gf-frost) !important;
+  margin: 0.5em 0 !important;
+  padding: 0.5em 0.8em !important;
+}
+
+.splash .latest.news.module li.post p.meta .published {
+  color: var(--gf-ice) !important;
+}
+
+.splash .latest.news.module li.post blockquote.userstuff {
+  background: linear-gradient(160deg, var(--gf-granite) 0%, var(--gf-stone) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid #c9b3e0 !important;
+  border-radius: 0 2px 2px 0 !important;
+  box-sizing: border-box !important;
+  padding: 0.8em 1em !important;
+}
+
+.splash .latest.news.module li.post p.jump a {
+  color: var(--gf-gold) !important;
+  font-style: italic !important;
+}
+
+.splash .latest.news.module li.post p.jump a:hover {
+  color: var(--gf-white) !important;
+}
+
+.splash .social.module ul {
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+.splash .social.module .resp-sharing-button {
+  align-items: center !important;
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  color: var(--gf-silver) !important;
+  display: inline-flex !important;
+  padding: 0.4em 0.9em !important;
+}
+
+.splash .social.module .resp-sharing-button:hover {
+  border-color: var(--gf-ice-dim) !important;
+  color: var(--gf-frost) !important;
+}
+
+/*
+ * ============================================
+ * 27. Index Pages
+ * ============================================
+ */
+/* Same treatment as the fieldset panels (e.g. Preferences page) rather than
+   a flat granite card. */
+#main.media-index li.medium.listbox.group,
+#main.fandoms-index li.letter.listbox.group {
+  background: linear-gradient(160deg, var(--gf-stone) 0%, var(--gf-void) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 0 2px 2px 0 !important;
+  border-top: 3px solid var(--gf-ice-dim) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 4px 18px rgba(0,0,0,0.45) !important;
+  margin-bottom: 1.5em !important;
+  padding: 1em 1.2em !important;
+}
+
+/* Fandoms page: AO3 lays the category cards out two per row, each 45%
+   wide and floated, but with the default content-box sizing. The card
+   padding and borders above were then added on top of that 45%, so two
+   cards plus AO3's 1.5em gap only fit side by side on very wide screens
+   and dropped to one per row everywhere else. border-box keeps the
+   padding inside the 45%. */
+#main.media-index li.medium.listbox.group {
+  box-sizing: border-box !important;
+}
+
+/* .listbox .index (below) gives these lists their own inset granite box —
+   drop that here so the fandom list just sits on the card's own gradient
+   background instead of a visibly separate blue-grey panel inside it. */
+#main.media-index li.medium.listbox.group .index,
+#main.fandoms-index li.letter.listbox.group .index {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* AO3's own base skin (.listbox .index) always gives this list an inset
+   white box, even with zero fandoms in it — hide that hollow box when a
+   medium has no fandoms yet, but keep the category heading visible.
+   :not(:has(li)) rather than :empty, since ERB's loop leaves a whitespace
+   text node in the ol even when it renders no li children. */
+#main.media-index li.medium.listbox.group ol.index.group:not(:has(li)) {
+  display: none !important;
+}
+
+#main.media-index li.medium.listbox.group h3.heading,
+#main.fandoms-index h3.heading {
+  border-bottom: 1px solid var(--gf-ice-dim) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 0 0.6em 0 !important;
+  padding-bottom: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+#main.media-index li.medium.listbox.group h3.heading a,
+#main.fandoms-index h3.heading a,
+#main.fandoms-index h3.heading a:visited {
+  color: var(--gf-frost) !important;
+}
+
+#main.media-index li.medium.listbox.group h3.heading a:hover,
+#main.fandoms-index h3.heading a:hover {
+  color: var(--gf-ice) !important;
+}
+
+#main.fandoms-index h3.heading span.action.top {
+  background: rgba(63, 137, 168, 0.1) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  margin-left: 0.5em !important;
+  padding: 1px 6px !important;
+}
+
+/* AO3's own default size for these fandom-list links is noticeably smaller
+   than the site's general reading text (about 0.85em) — raised to the
+   body text size so the fandom lists read like the rest of the page. */
+#main.media-index ol.index.group li,
+#main.fandoms-index ol.index.group li,
+#main.fandoms-index ul.tags.index.group li {
+  color: var(--gf-silver) !important;
+  font-size: var(--fs-base) !important;
+}
+
+#main.media-index li.medium.listbox.group p.actions {
+  text-align: right !important;
+}
+
+#main.media-index li.medium.listbox.group p.actions a {
+  background: linear-gradient(135deg, rgba(184, 150, 90, 0.2) 0%, rgba(122, 96, 56, 0.1) 100%) !important;
+  border: 1px solid rgba(184, 150, 90, 0.45) !important;
+  border-radius: 2px !important;
+  color: var(--gf-gold-pale) !important;
+  display: inline-block !important;
+  font-size: var(--fs-sm) !important;
+  font-style: italic !important;
+  padding: 0.3em 0.8em !important;
+}
+
+/* Brightens on hover rather than dimming — --gf-gold-dim as text fails
+   WCAG AA (2.5–3.3:1) on every surface colour in this skin */
+#main.media-index li.medium.listbox.group p.actions a:hover {
+  background: linear-gradient(135deg, rgba(184, 150, 90, 0.4) 0%, rgba(122, 96, 56, 0.24) 100%) !important;
+  border-color: var(--gf-gold) !important;
+  color: var(--gf-white) !important;
+}
+
+/*
+ * ============================================
+ * 28. Profile & Stats Pages
+ * ============================================
+ */
+dl.statistics.meta.group {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+  border-radius: 0 2px 2px 0 !important;
+  margin-bottom: 1.2em !important;
+  padding: 0.75em 1.2em !important;
+}
+
+dl.statistics.meta.group dt {
+  color: var(--gf-ice) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+dl.statistics.meta.group dd {
+  color: var(--gf-frost) !important;
+  margin-bottom: 0.2em !important;
+}
+
+/* AO3 draws the stats chart without passing Google Charts a height, so
+   the chart takes whatever height its empty box has at draw time. With
+   no height set, that can be close to 0, and on phones (and the local
+   dev AO3) the chart collapsed to a thin line with no bars at all. An
+   explicit height, set before AO3's script draws, gives it a real
+   canvas. 14rem is about the size it drew at on desktop before, and it
+   scales down with the mobile root. */
+div#stat_chart,
+div.statistics.chart {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  box-sizing: border-box !important;
+  height: 14rem !important;
+  margin: 1em 0 !important;
+}
+
+/* Stats chart recolour. The chart is a Google Charts SVG drawn by AO3's
+   JavaScript with its colours set as fill attributes (white background,
+   #993333 bars, grey gridlines, dark text). Each part is matched by its
+   fill value rather than its position in the SVG, so a change to Google's
+   element nesting doesn't shift colours onto the wrong parts. Colours are
+   applied with filter chains (brightness(0) flattens to black, then the
+   rest of the chain builds the palette colour) because filter is what
+   AO3's sanitizer is known to accept here. If Google or AO3 ever change
+   those default fill colours, these selectors stop matching and the chart
+   simply falls back to its stock white look. */
+
+/* White background card: hidden so the panel above shows through */
+#stat_chart svg > rect[fill="#ffffff"] {
+  opacity: 0;
+}
+
+/* Bars and legend key: --gf-ice-mid */
+#stat_chart rect[fill="#993333"] {
+  filter: brightness(0) saturate(100%) invert(59%) sepia(71%) saturate(222%) hue-rotate(155deg) brightness(93%) contrast(87%);
+}
+
+/* Gridlines, major and minor: --gf-slate */
+#stat_chart rect[fill="#cccccc"],
+#stat_chart rect[fill="#ebebeb"] {
+  filter: brightness(0) saturate(100%) invert(22%) sepia(10%) saturate(859%) hue-rotate(185deg) brightness(98%) contrast(91%);
+}
+
+/* Baseline: --gf-ash */
+#stat_chart rect[fill="#333333"] {
+  filter: brightness(0) saturate(100%) invert(64%) sepia(21%) saturate(205%) hue-rotate(178deg) brightness(87%) contrast(85%);
+}
+
+/* Hover outline around the active bar: --gf-ice */
+#stat_chart rect[fill="none"] {
+  filter: brightness(0) saturate(100%) invert(86%) sepia(15%) saturate(674%) hue-rotate(155deg) brightness(92%) contrast(92%);
+}
+
+/* All labels, including tooltip text: --gf-frost */
+#stat_chart text {
+  filter: brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(1284%) hue-rotate(179deg) brightness(88%) contrast(100%);
+}
+
+/* Hover tooltip bubble: --gf-granite, so the frost text above stays
+   readable on it */
+#stat_chart .google-visualization-tooltip path {
+  filter: brightness(0) saturate(100%) invert(13%) sepia(25%) saturate(407%) hue-rotate(184deg) brightness(90%) contrast(91%);
+}
+
+ul.statistics.index.group li.fandom.listbox.group {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  margin-bottom: 1.2em !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group h5.heading {
+  background: var(--gf-stone) !important;
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+  padding: 0.4em 1em !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  padding: 0.6em 1em !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li:last-child {
+  border-bottom: none !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dt a {
+  color: var(--gf-gold) !important;
+}
+
+/* Brightens on hover rather than dimming — --gf-gold-dim as text fails
+   WCAG AA (2.5–3.3:1) on every surface colour in this skin */
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dt a:hover {
+  color: var(--gf-white) !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dt span.words,
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dd dl.stats dt,
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dd dl.stats dd {
+  color: var(--gf-ash) !important;
+}
+
+.statistics .index li:nth-of-type(2n) {
+  background: rgba(63, 137, 168, 0.06) !important;
+}
+
+/*
+ * ============================================
+ * 29. Reading History
+ * ============================================
+ */
+li.reading.work.blurb.group div.user.module.group {
+  align-items: center !important;
+  background: var(--gf-stone) !important;
+  border-top: 1px solid var(--gf-slate) !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  margin-top: 1.2em !important;
+  padding: 0.6em 0.5em !important;
+}
+
+#main li.reading.work.blurb.group div.user.module.group h4.viewed.heading {
+  color: var(--gf-silver) !important;
+  font-size: var(--fs-sm) !important;
+}
+
+#main li.reading.work.blurb.group div.user.module.group h4.viewed.heading span {
+  color: var(--gf-ice) !important;
+  font-weight: 600 !important;
+}
+
+li.reading.work.blurb.group div.user.module.group ul.actions {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+li.reading.work.blurb.group div.user.module.group ul.actions li {
+  display: inline-block !important;
+  margin: 0 !important;
+}
+
+/*
+ * ============================================
+ * 30. System Pages
+ * ============================================
+ */
+/* News post titles — a violet/frost/gold diagonal sweep, distinct in both
+   hue and direction from the fic-title gradient (icy → frost → gold,
+   90deg) so the two don't read as the same treatment. */
+#main[class*="admin_posts-"] .header h3.heading a {
+  background: linear-gradient(135deg, var(--gf-frost) 0%, #c9b3e0 50%, var(--gf-gold) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+#main[class*="admin_posts-"] .header h3.heading a:hover {
+  background: linear-gradient(135deg, var(--gf-gold) 0%, #c9b3e0 50%, var(--gf-frost) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* News post body — .userstuff is shared with fic chapter text, but a news
+   announcement reads better as its own framed panel than as bare page
+   text, so it gets a card matching the violet/gold news theme instead of
+   inheriting the plain fic-reading styles. */
+#main[class*="admin_posts-"] .userstuff {
+  background: linear-gradient(160deg, var(--gf-granite) 0%, var(--gf-stone) 100%) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid #c9b3e0 !important;
+  border-radius: 0 2px 2px 0 !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4) !important;
+  box-sizing: border-box !important;
+  margin-bottom: 1.5em !important;
+  padding: 1.2em 1.6em !important;
+}
+
+/*
+ * News page logo mark (.primary.header.module .icon, an empty div AO3
+ * fills with a sprite background) — same square-frame idea as the
+ * dashboard/profile avatar (border + glow, see User Dashboard below), but
+ * using the news gradient (frost/violet/gold) via border-image instead of
+ * the dashboard's solid icy border. Scoped to .news since .primary .icon
+ * is also reused elsewhere for small unrelated role-badge icons that
+ * shouldn't get a big framed border.
+ */
+.news .primary.header.module .icon {
+  border-image: linear-gradient(135deg, var(--gf-frost) 0%, #c9b3e0 50%, var(--gf-gold) 100%) 1 !important;
+  border-style: solid !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 8px rgba(201, 179, 224, 0.25) !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.2s ease !important;
+}
+
+.news .primary.header.module .icon:hover {
+  box-shadow: 0 0 14px rgba(201, 179, 224, 0.35) !important;
+}
+
+.system .userstuff {
+  margin: auto !important;
+  max-width: 72em !important;
+}
+
+.authentication fieldset {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  box-shadow: none !important;
+}
+
+.authentication legend {
+  background: var(--gf-granite) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: inherit !important;
+  height: auto !important;
+  opacity: 1 !important;
+  padding: 0.5em 0.7em 0 !important;
+  width: auto !important;
+}
+
+.authentication label {
+  display: block !important;
+}
+
+/* Narrow the content of system/docs pages (About Us, FAQ, Wrangling
+   Guidelines, Donate) for readability. classes_for_main gives these pages
+   both "system" and "docs" (see application_helper#classes_for_main) — the
+   page title (h2.heading) and the empty .flash div are excluded from the
+   narrowing so the title stays full-width where it was. */
+#main.system.docs > *:not(h2.heading):not(.flash) {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 52em !important;
+}
+
+#main.faq h2.heading,
+#main.support h2.heading,
+#main.docs h2.heading,
+#main.guideline h2.heading,
+#main.donate h2.heading {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  letter-spacing: 0.05em !important;
+  padding-bottom: 0.3em !important;
+  text-transform: uppercase !important;
+}
+
+#main.donate h3.heading {
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  font-family: 'Cinzel', serif !important;
+  margin-top: 1.5em !important;
+  padding-bottom: 0.2em !important;
+}
+
+#main.faq p.notes,
+#main.support p.notes,
+#main.docs p.notes,
+#main.guideline p.notes,
+#main.donate p.notes {
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-left: 3px solid var(--gf-ice-dim) !important;
+  color: var(--gf-silver) !important;
+  padding: 0.5em 0.8em !important;
+}
+
+.faq .categories h3 {
+  border-bottom: 3px double var(--gf-slate) !important;
+  color: var(--gf-frost) !important;
+  margin-top: 1.5em !important;
+}
+
+.categories h3.heading {
+  align-items: center !important;
+  background: var(--gf-stone) !important;
+  border: 1px solid var(--gf-slate) !important;
+  border-radius: 2px !important;
+  color: var(--gf-frost) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0.4em 0.8em !important;
+}
+
+ul.faq.index.group li.category > a,
+ul.faq.index.group ul.questions li a {
+  color: var(--gf-ice) !important;
+  text-decoration: none !important;
+}
+
+ul.faq.index.group li.category > a:hover,
+ul.faq.index.group ul.questions li a:hover {
+  color: var(--gf-ice) !important;
+  text-decoration: underline !important;
+}
+
+.tos .userstuff nav.toc > details > summary {
+  border-bottom: 3px double var(--gf-slate) !important;
+}
+
+#proxy-notice {
+  background: var(--gf-stone) !important;
+  border-bottom: 1px solid var(--gf-slate) !important;
+  color: var(--gf-silver) !important;
+  font-size: var(--fs-sm) !important;
+}
+
+/*
+ * ============================================
+ * 31. Scrollbar
+ * ============================================
+ */
+::-webkit-scrollbar {
+  background: var(--gf-void) !important;
+  width: 8px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gf-slate) !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gf-ice-dim) !important;
+}
+
+/*
+ * ============================================
+ * 32. Decorative
+ * ============================================
+ */
+/* body::before removed — position:fixed not supported in AO3 site skins */
+
+/*
+ * ============================================
+ * 33. Selection Color
+ * ============================================
+ */
+/* Kept as two separate rules rather than a comma-joined selector list —
+   some browsers/sanitizers drop an entire rule if any one selector in a
+   grouped list is unrecognized. */
+::selection {
+  background: rgba(184, 150, 90, 0.4) !important;
+  color: var(--gf-ice-pale) !important;
+  text-shadow: none !important;
+}
+
+::-moz-selection {
+  background: rgba(184, 150, 90, 0.4) !important;
+  color: var(--gf-ice-pale) !important;
+  text-shadow: none !important;
+}
+
+/*
+ * ============================================================
+ * 34. REPLACE THE AO3 ICONS - recolored for Gilded Frost
+ * by zerafinacss https://github.com/ZerafinaCSS/Replace-the-AO3-Icons-2.0
+ * ============================================================
+ */
+
+:root {
+  --icon-border1: rgba(158, 212, 227, 0.3); /* icy-blue tint used for icon borders below */
+}
+
+
+ul.required-tags,
+.bookmark .status span,
+.blurb .icon {
+  opacity: 1 !important; /* some public site skins like Reversi set the opacity of some icons to 0.9, which I want to prevent here */
+}
+
+/* ========== ICONS FOR USERS, COLLECTIONS, TAGS etc. ========== */
+/* have to use "content" instead of "background" to replace some of these icons, as they were coded differently in the default archive skin */
+
+/* default user icon */
+img[src$="/images/skins/iconsets/default/icon_user.png"] {
+  background:
+  var(--gf-ice-dim) /* change icon color here */
+  content-box;
+  border: 1.5px solid var(--gf-slate); /* change border width and color here */
+  box-sizing: border-box;
+  content: url("https://zerafinacss.github.io/ao3/icons/user-default-01.png"); /* url of new icon */
+}
+
+/* anon comment icon */
+.comment .icon .anonymous {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/anon-01.png"), /* url of new icon */
+  var(--gf-ash) /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid var(--gf-slate); /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* guest comment icon */
+.comment .icon .visitor {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/user-visitor-01.png"), /* url of new icon */
+  var(--gf-ash) /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid var(--gf-slate); /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* default collection icon */
+img[src$="/images/skins/iconsets/default/icon_collection.png"] {
+  background:
+  linear-gradient(transparent, rgba(255, 255, 255, 0.15) 45% 55%, transparent), /* subtle gradient */
+  var(--gf-ice-dim) /* change background color here */
+  border-box;
+  border: 1.5px solid var(--gf-slate); /* change border width and color here */
+  box-sizing: border-box;
+  content: url("https://zerafinacss.github.io/ao3/icons/collection-01.png"); /* url of new icon */
+}
+
+/* tag icons */
+.tagset .primary .icon,
+.tag .primary .icon,
+.index .tagset .icon {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/tag-01.png"), /* url of new icon */
+  linear-gradient(transparent, rgba(255, 255, 255, 0.15) 45% 55%, transparent), /* subtle gradient */
+  var(--gf-gold-dim) /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid var(--gf-slate); /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* icon for unrevealed works */
+.index .mystery .icon {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/anon-01.png"), /* url of new icon */
+  linear-gradient(transparent, rgba(255, 255, 255, 0.15) 45% 55%, transparent) /* subtle gradient */
+  var(--gf-ice-dim) /* change background color here */
+  content-box;
+  background-size: cover;
+  border: 1.5px solid var(--gf-slate); /* change width and color of outer border here */
+  box-shadow: inset 0 0 0 3px var(--gf-void); /* change width and color of inner border here */
+  box-sizing: border-box;
+}
+
+/* admin icon, seen on news posts */
+.admin .primary .icon {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/admin-01.png") /* url of new icon */
+  no-repeat,
+  linear-gradient(rgba(255, 255, 255, 0.25), transparent) /* subtle gradient */
+  var(--gf-gold) /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid rgba(0, 0, 0, 0.6); /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* default icon for skins */
+.skins .primary .icon:not(:has(a .icon)),
+.index .skins .icon:not(:has(a .icon)) {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/skins-01.png"), /* url of new icon */
+  var(--gf-gold-dim) /* change icon color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid var(--gf-slate); /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* ========== CONTENT SYMBOLS ========== */
+
+/* sets the size of the symbols keys icons */
+#symbols-key dl img,
+#bookmark-symbols-key img {
+height: 0 !important;
+padding: 25px 0 0 25px;
+width: 0 !important;
+}
+
+/* sizing and borders for content symbols */
+.blurb ul.required-tags li a > span,
+.bookmark p.status a > span,
+#symbols-key dl img,
+#bookmark-symbols-key img {
+background-origin: border-box;
+background-size: cover;
+border: 1px solid; /* change border width here or delete this if you don't want the borders */
+box-sizing: border-box;
+}
+
+/* empty symbols boxes (no rating, category or warning) */
+.required-tags .rating-notrated,
+.required-tags .category-none,
+.required-tags .warning-no,
+.status .count,
+img[src$="/images/skins/iconsets/default/rating-notrated.png"],
+img[src$="/images/skins/iconsets/default/category-none.png"],
+img[src$="/images/skins/iconsets/default/warning-no.png"] {
+  background: var(--gf-granite); /* change background color here — was a near-white box, which no longer fits a dark theme */
+  color: var(--gf-slate); /* change border color here */
+}
+
+/*
+ * The following content symbols have transparent borders, allowing the background to show through.
+ * This automatically gives the icons borders that have a slightly darker color than the background color.
+ * You can replace the border color with any other rgb, rgba, or hex color, transparent or not.
+ */
+
+/* ========== Rating ========== */
+
+/* General Audiences */
+.required-tags .rating-general-audience,
+img[src$="/images/skins/iconsets/default/rating-general-audience.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-gen-01.png"), /* url of new icon */
+  #8bc101; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Teen And Up Audiences */
+.required-tags .rating-teen,
+img[src$="/images/skins/iconsets/default/rating-teen.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-teen-01.png"), /* url of new icon */
+  #f5ce00; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Mature */
+.required-tags .rating-mature,
+img[src$="/images/skins/iconsets/default/rating-mature.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-mature-01.png"), /* url of new icon */
+  #ef851c; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Explicit */
+.required-tags .rating-explicit,
+img[src$="/images/skins/iconsets/default/rating-explicit.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-explicit-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* ========== Relationships, pairings, orientations ========== */
+
+/* F/F */
+.required-tags .category-femslash,
+img[src$="/images/skins/iconsets/default/category-femslash.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-ff-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* F/M */
+.required-tags .category-het,
+img[src$="/images/skins/iconsets/default/category-het.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-mf-01.png"), /* url of new icon */
+  #910679; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Gen */
+.required-tags .category-gen,
+img[src$="/images/skins/iconsets/default/category-gen.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-gen-01.png"), /* url of new icon */
+  #8bc101; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* M/M */
+.required-tags .category-slash,
+img[src$="/images/skins/iconsets/default/category-slash.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-mm-01.png"), /* url of new icon */
+  #0054d4; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Multi */
+.required-tags .category-multi,
+img[src$="/images/skins/iconsets/default/category-multi.png"] {
+  background:
+  conic-gradient(from 270deg, #8bc101 25%, #910679 25% 50%, #0054d4 50% 75%, #b0021f 75%); /* conic gradient with the colors of the relationship icons */
+  color: #0000001a; /* change border color here */
+}
+
+/* Other relationships */
+.required-tags .category-other,
+img[src$="/images/skins/iconsets/default/category-other.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-other-01.png"), /* url of new icon */
+  #000; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* ========== Content warnings ========== */
+
+/* Author chose not to warn */
+.required-tags .warning-choosenotto,
+img[src$="/images/skins/iconsets/default/warning-choosenotto.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/warning-choosenotto-01.png"), /* url of new icon */
+  #ef851c; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Warnings apply */
+.required-tags .warning-yes,
+img[src$="/images/skins/iconsets/default/warning-yes.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/warning-yes-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* External work */
+.required-tags .external-work,
+img[src$="/images/skins/iconsets/default/warning-external-work.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/warning-external-work-01.png"), /* url of new icon */
+  #107cb9; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* ========== Completion status ========== */
+
+/* uncomplete/unfulfilled */
+.required-tags .complete-no,
+img[src$="/images/skins/iconsets/default/complete-no.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/complete-no-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* completed/filled */
+.required-tags .complete-yes,
+img[src$="/images/skins/iconsets/default/complete-yes.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/complete-yes-01.png"), /* url of new icon */
+  #8bc101; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* ========== Bookmark symbols ========== */
+
+/* Rec bookmark */
+.status .rec,
+img[src$="/images/skins/iconsets/default/bookmark-rec.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-rec-01.png"), /* url of new icon */
+  #107cb9; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Public bookmark */
+.status .public,
+img[src$="/images/skins/iconsets/default/bookmark-public.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-public-01.png"), /* url of new icon */
+  #107cb9; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Private bookmark */
+.status .private,
+img[src$="/images/skins/iconsets/default/bookmark-private.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-locked-01.png"), /* url of new icon */
+  #000; /* change lock color here */
+  color: #0000001a; /* change border color here */
+  font-size: 0;
+}
+
+/* fix private bookmark */
+.status .private .text {
+  background: none;
+  /*
+   * This seems to be the only bookmark icon where the background is put in the .text element instead of it's parent.
+   * I want it to match the rest, so I'm hiding the background of the .text element.
+   */
+}
+
+/* Hidden bookmark */
+.status .hidden,
+img[src$="/images/skins/iconsets/default/bookmark-hidden.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-locked-01.png"), /* url of new icon */
+  #b0021f; /* change lock color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* ========== RSS ICON ========== */
+
+/* hide old rss icon */
+a.rss span {
+  background: none;
+  padding: 0;
+}
+
+/* setup for the new rss icon */
+.actions li a.rss {
+  align-content: center;
+  align-items: center;
+  display: inline-flex;
+  /* column-gap isn't supported by AO3's sanitizer — margin on the icon
+   *       below replaces it. */
+}
+
+/* new rss icon */
+.actions li a.rss::before {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rss-01.png") /* url of new icon */
+  var(--gf-gold); /* change background color here */
+  background-size: cover;
+  border: 1px solid var(--icon-border1);
+  border-radius: 2px;
+  box-sizing: border-box;
+  content: "";
+  height: 0.85em;
+  margin-right: 0.3em;
+  width: 0.85em;
+}
+
+/* ========== KUDOS ICON ========== */
+
+/* hide old kudos icon */
+p.kudos {
+  background: none;
+}
+
+/* new kudos icon */
+/* Floated at the start of the kudos card (p.kudos::before renders before
+   the list of names), so the names flow beside it and, once there are
+   enough of them, wrap underneath it using the card's full width. It used
+   to be absolutely positioned on the wrapper div with the text dodging it
+   via a fixed left padding, which left every line indented and, on a
+   phone where that padding was narrower than the icon, overlapped it. */
+p.kudos::before {
+  background: url("https://zerafinacss.github.io/ao3/icons/kudos-01.png"); /* url of new icon */
+  background-size: cover;
+  content: "";
+  filter: invert(70%) sepia(38%) saturate(600%) hue-rotate(357deg) brightness(90%) contrast(89%); /* adjust filter values to change color — tuned by eye toward --gf-gold (#b8965a), verify against the live icon and nudge hue-rotate/saturate if it reads off */
+  float: left;
+  height: 55px;
+  margin: 0 0.75em 0.25em 0;
+  width: 55px;
+}
+
+
